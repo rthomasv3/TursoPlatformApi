@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
     <Title>rthomasv3.TursoPlatformApi</Title>
     <PackageId>rthomasv3.TursoPlatformApi</PackageId>
-    <Version>0.9.0-dev1</Version>
+    <Version>0.9.0</Version>
     <Authors>https://github.com/rthomasv3</Authors>
     <Description>Unofficial C# SDK for the Turso Platform API.</Description>
     <PackageIcon>icon.png</PackageIcon>
