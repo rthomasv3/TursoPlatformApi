@@ -1,10 +1,13 @@
 ﻿namespace TursoPlatformApi.Responses.Organizations
 {
-    public class GetSubscriptionResponse
+    internal class GetSubscriptionResponse
     {
         public Subscription Subscription { get; set; }
     }
 
+    /// <summary>
+    /// Subscription information.
+    /// </summary>
     public class Subscription
     {
         /// <summary>

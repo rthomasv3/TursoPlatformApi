@@ -5,10 +5,13 @@ using TursoPlatformApi.Responses.Databases;
 
 namespace TursoPlatformApi.Abstractions
 {
+    /// <summary>
+    /// Used to manage Turso databses.
+    /// </summary>
     public interface ITursoDatabaseService
     {
         /// <summary>
-        /// Returns a list of databases belonging to the organization or user the client was set up with.
+        /// Returns a list of databases belonging to the default organization.
         /// </summary>
         /// <param name="group">Filter databases by group name.</param>
         /// <param name="schema">The schema database name that can be used to get databases that belong to that parent schema.</param>
@@ -25,7 +28,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<Database>>> List(string organizationSlug, string group = null, string schema = null);
 
         /// <summary>
-        /// Creates a new database in a group for the organization or user the client was set up with.
+        /// Creates a new database in a group for the default organization.
         /// </summary>
         /// <param name="name">The name of the new database. Must contain only lowercase letters, numbers, dashes. No longer than 64 characters.</param>
         /// <param name="group">The name of the group where the database should be created. The group must already exist.</param>
@@ -60,7 +63,7 @@ namespace TursoPlatformApi.Abstractions
             bool isScheme = false, string schema = null);
 
         /// <summary>
-        /// Returns a database belonging to the organization or user the client was set up with.
+        /// Returns a database belonging to the default organization.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
         /// <returns>The database information.</returns>
@@ -75,7 +78,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<Database>> Retrieve(string organizationSlug, string databaseName);
 
         /// <summary>
-        /// Retrieve an individual database configuration belonging to the organization or user the client was set up with.
+        /// Retrieve an individual database configuration belonging to the default organization.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
         /// <returns>The database configuration data.</returns>
@@ -91,7 +94,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<DatabaseConfiguration>> RetrieveConfiguration(string organizationSlug, string databaseName);
 
         /// <summary>
-        /// Update a database configuration belonging to the organization or user the client was set up with.
+        /// Update a database configuration belonging to the default organization.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
         /// <param name="sizeLimit">The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb.</param>
@@ -125,7 +128,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<DatabaseUsage>> Usage(string databaseName, string from = null, string to = null);
 
         /// <summary>
-        /// Fetch activity usage for a database in a given time period for the organization or user the client was set up with.
+        /// Fetch activity usage for a database in a given time period for the default organization.
         /// </summary>
         /// <param name="organizationSlug">The slug of the organization or user account.</param>
         /// <param name="databaseName">The name of the database.</param>
@@ -143,7 +146,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<TopQuery>>> Stats(string databaseName);
 
         /// <summary>
-        /// Fetch the top queries of a database, including the count of rows read and written, for the organization or user the client was set up with.
+        /// Fetch the top queries of a database, including the count of rows read and written, for the default organization.
         /// </summary>
         /// <param name="organizationSlug">The slug of the organization or user account.</param>
         /// <param name="databaseName">The name of the database.</param>
@@ -151,7 +154,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<TopQuery>>> Stats(string organizationSlug, string databaseName);
 
         /// <summary>
-        /// Delete a database belonging to the organization or user the client was set up with.
+        /// Delete a database belonging to the default organization.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
         /// <returns>The name of the database that was deleted.</returns>
@@ -173,7 +176,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<DatabaseInstance>>> ListInstances(string databaseName);
 
         /// <summary>
-        /// Returns a list of instances of a database for the organization or user the client was set up with. Instances are the individual primary or replica databases in each region defined by the group.
+        /// Returns a list of instances of a database for the default organization. Instances are the individual primary or replica databases in each region defined by the group.
         /// </summary>
         /// <param name="organizationSlug">The slug of the organization or user account.</param>
         /// <param name="databaseName">The name of the database.</param>
@@ -181,7 +184,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<DatabaseInstance>>> ListInstances(string organizationSlug, string databaseName);
 
         /// <summary>
-        /// Return the individual database instance by name for the organization or user the client was set up with.
+        /// Return the individual database instance by name for the default organization.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
         /// <param name="instanceName">The name of the instance (location code).</param>
@@ -198,7 +201,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<DatabaseInstance>> RetrieveInstance(string organizationSlug, string databaseName, string instanceName);
 
         /// <summary>
-        /// Generates an authorization token for the specified database for the organization or user the client was set up with.
+        /// Generates an authorization token for the specified database for the default organization.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
         /// <param name="expiration">Expiration time for the token (e.g., 2w1d30m).</param>
@@ -221,7 +224,7 @@ namespace TursoPlatformApi.Abstractions
             string authorization = null, List<string> readAttachDatabases = null);
 
         /// <summary>
-        /// Invalidates all authorization tokens for the specified database for the organization or user the client was set up with.
+        /// Invalidates all authorization tokens for the specified database for the default organization.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
         /// <returns>A value indicating if the tokens were invalidated successfully.</returns>
@@ -236,7 +239,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<bool>> InvalidateTokens(string organizationSlug, string databaseName);
 
         /// <summary>
-        /// Upload a SQL dump to be used when creating a new database from seed for the organization or user the client was set up with.
+        /// Upload a SQL dump to be used when creating a new database from seed for the default organization.
         /// </summary>
         /// <param name="filePath">The path of the sql dump file to upload.</param>
         /// <returns>URL of the uploaded database dump.</returns>
@@ -251,7 +254,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<string>> UploadDump(string organizationSlug, string filePath);
 
         /// <summary>
-        /// Upload a SQL dump to be used when creating a new database from seed for the organization or user the client was set up with.
+        /// Upload a SQL dump to be used when creating a new database from seed for the default organization.
         /// </summary>
         /// <param name="fileName">The name of the sql dump file.</param>
         /// <param name="fileData">The sql dump file data.</param>

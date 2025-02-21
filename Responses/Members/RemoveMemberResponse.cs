@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Members
 {
-    public class RemoveMemberResponse
+    internal class RemoveMemberResponse
     {
         public string member { get; set; }
     }

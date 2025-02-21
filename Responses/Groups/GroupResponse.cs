@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Groups
 {
-    public class GroupResponse
+    internal class GroupResponse
     {
         public Group group { get; set; }
     }

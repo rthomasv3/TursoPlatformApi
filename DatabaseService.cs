@@ -13,10 +13,14 @@ using TursoPlatformApi.Responses.Databases;
 
 namespace TursoPlatformApi
 {
+    /// <inheritdoc />
     public class DatabaseService : ApiService, ITursoDatabaseService
     {
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="DatabaseService"/>.
+        /// </summary>
         public DatabaseService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings)
             : base(httpClientFactory, appSettings)
         { }
@@ -28,7 +32,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<Database>>> List(string group = null, string schema = null)
         {
-            return await List(AppSettings.OrganizationSlug, group, schema);
+            return await List(AppSettings.DefaultOrganizationSlug, group, schema);
         }
 
         /// <inheritdoc />
@@ -85,7 +89,7 @@ namespace TursoPlatformApi
             string seedUrl = null, string seedTimestamp = null, string sizeLimit = null, bool isScheme = false, 
             string schema = null)
         {
-            return await Create(AppSettings.OrganizationSlug, name, group, seedType, seedName, seedUrl, seedTimestamp, 
+            return await Create(AppSettings.DefaultOrganizationSlug, name, group, seedType, seedName, seedUrl, seedTimestamp, 
                 sizeLimit, isScheme, schema);
         }
 
@@ -152,7 +156,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Database>> Retrieve(string databaseName)
         {
-            return await Retrieve(AppSettings.OrganizationSlug, databaseName);
+            return await Retrieve(AppSettings.DefaultOrganizationSlug, databaseName);
         }
 
         /// <inheritdoc />
@@ -189,7 +193,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<DatabaseConfiguration>> RetrieveConfiguration(string databaseName)
         {
-            return await RetrieveConfiguration(AppSettings.OrganizationSlug, databaseName);
+            return await RetrieveConfiguration(AppSettings.DefaultOrganizationSlug, databaseName);
         }
 
         /// <inheritdoc />
@@ -226,7 +230,7 @@ namespace TursoPlatformApi
         public async Task<Optional<DatabaseConfiguration>> UpdateConfiguration(string databaseName, string sizeLimit = null, 
             bool? allowAttach = null, bool? blockReads = null, bool? blockWrites = null)
         {
-            return await UpdateConfiguration(AppSettings.OrganizationSlug, databaseName, sizeLimit, 
+            return await UpdateConfiguration(AppSettings.DefaultOrganizationSlug, databaseName, sizeLimit, 
                 allowAttach, blockReads, blockWrites);
         }
 
@@ -284,7 +288,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<DatabaseUsage>> Usage(string databaseName, string from = null, string to = null)
         {
-            return await Usage(AppSettings.OrganizationSlug, databaseName, from, to);
+            return await Usage(AppSettings.DefaultOrganizationSlug, databaseName, from, to);
         }
 
         /// <inheritdoc />
@@ -341,7 +345,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<TopQuery>>> Stats(string databaseName)
         {
-            return await Stats(AppSettings.OrganizationSlug, databaseName);
+            return await Stats(AppSettings.DefaultOrganizationSlug, databaseName);
         }
 
         /// <inheritdoc />
@@ -378,7 +382,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<string>> Delete(string databaseName)
         {
-            return await Delete(AppSettings.OrganizationSlug, databaseName);
+            return await Delete(AppSettings.DefaultOrganizationSlug, databaseName);
         }
 
         /// <inheritdoc />
@@ -416,7 +420,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<DatabaseInstance>>> ListInstances(string databaseName)
         {
-            return await ListInstances(AppSettings.OrganizationSlug, databaseName);
+            return await ListInstances(AppSettings.DefaultOrganizationSlug, databaseName);
         }
 
         /// <inheritdoc />
@@ -453,7 +457,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<DatabaseInstance>> RetrieveInstance(string databaseName, string instanceName)
         {
-            return await RetrieveInstance(AppSettings.OrganizationSlug, databaseName, instanceName);
+            return await RetrieveInstance(AppSettings.DefaultOrganizationSlug, databaseName, instanceName);
         }
 
         /// <inheritdoc />
@@ -491,7 +495,7 @@ namespace TursoPlatformApi
         public async Task<Optional<string>> CreateToken(string databaseName, string expiration = null,
             string authorization = null, List<string> readAttachDatabases = null)
         {
-            return await CreateToken(AppSettings.OrganizationSlug, databaseName, expiration, authorization, readAttachDatabases);
+            return await CreateToken(AppSettings.DefaultOrganizationSlug, databaseName, expiration, authorization, readAttachDatabases);
         }
 
         /// <inheritdoc />
@@ -563,7 +567,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<bool>> InvalidateTokens(string databaseName)
         {
-            return await InvalidateTokens(AppSettings.OrganizationSlug, databaseName);
+            return await InvalidateTokens(AppSettings.DefaultOrganizationSlug, databaseName);
         }
 
         /// <inheritdoc />
@@ -599,7 +603,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<string>> UploadDump(string filePath)
         {
-            return await UploadDump(AppSettings.OrganizationSlug, Path.GetFileName(filePath), File.ReadAllBytes(filePath));
+            return await UploadDump(AppSettings.DefaultOrganizationSlug, Path.GetFileName(filePath), File.ReadAllBytes(filePath));
         }
 
         /// <inheritdoc />
@@ -611,7 +615,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<string>> UploadDump(string fileName, byte[] fileData)
         {
-            return await UploadDump(AppSettings.OrganizationSlug, fileName, fileData);
+            return await UploadDump(AppSettings.DefaultOrganizationSlug, fileName, fileData);
         }
 
         /// <inheritdoc />

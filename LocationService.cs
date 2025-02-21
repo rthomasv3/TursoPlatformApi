@@ -9,6 +9,7 @@ using TursoPlatformApi.Responses.Locations;
 
 namespace TursoPlatformApi
 {
+    /// <inheritdoc />
     public class LocationService : ApiService, ITursoLocationService
     {
         #region Fields
@@ -17,6 +18,9 @@ namespace TursoPlatformApi
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="LocationService"/>.
+        /// </summary>
         public LocationService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings) 
             : base(httpClientFactory, appSettings)
         { }

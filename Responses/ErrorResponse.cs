@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses
 {
-    public class ErrorResponse
+    internal class ErrorResponse
     {
         public string Error { get; set; }
     }

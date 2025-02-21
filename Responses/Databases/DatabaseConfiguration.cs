@@ -1,5 +1,8 @@
 ﻿namespace TursoPlatformApi.Responses.Databases
 {
+    /// <summary>
+    /// Database configuration information.
+    /// </summary>
     public class DatabaseConfiguration
     {
         /// <summary>

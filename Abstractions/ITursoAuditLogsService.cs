@@ -4,10 +4,13 @@ using TursoPlatformApi.Responses.AuditLogs;
 
 namespace TursoPlatformApi.Abstractions
 {
+    /// <summary>
+    /// Used to view Turso audit logs.
+    /// </summary>
     public interface ITursoAuditLogsService
     {
         /// <summary>
-        /// Return the audit logs for the organization the client was set up with, ordered by the created_at field in descending order.
+        /// Return the audit logs for the default organization, ordered by the created_at field in descending order.
         /// </summary>
         /// <param name="pageSize">The limit of items to return per page. Defaults to 100.</param>
         /// <param name="page">The page number to return. Defaults to 1.</param>

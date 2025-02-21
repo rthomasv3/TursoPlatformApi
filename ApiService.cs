@@ -7,6 +7,9 @@ using TursoPlatformApi.Responses;
 
 namespace TursoPlatformApi
 {
+    /// <summary>
+    /// The base API service providing common functionality.
+    /// </summary>
     public class ApiService
     {
         #region Fields
@@ -20,6 +23,12 @@ namespace TursoPlatformApi
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of an <see cref="ApiService"/>.
+        /// </summary>
+        /// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> used to create <see cref="HttpClient"/> instances.</param>
+        /// <param name="appSettings">App settings for configuration.</param>
+        /// <exception cref="ArgumentNullException">All parameters are required.</exception>
         public ApiService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings)
         {
             if (httpClientFactory == null)
@@ -53,20 +62,42 @@ namespace TursoPlatformApi
 
         #region Properties
 
+        /// <summary>
+        /// An <see cref="HttpClient"/> configured with the Turso API base address and auth token.
+        /// </summary>
         protected HttpClient TursoClient => _httpClientFactory.CreateClient(_appSettings.TursoClientName);
 
+        /// <summary>
+        /// A default <see cref="HttpClient"/>.
+        /// </summary>
         protected HttpClient DefaultClient => _httpClientFactory.CreateClient(_appSettings.DefaultClientName);
 
+        /// <summary>
+        /// Configuration settings.
+        /// </summary>
         protected TursoAppSettings AppSettings => _appSettings;
 
+        /// <summary>
+        /// Serailization options used for serializing requests to the Turso API.
+        /// </summary>
         protected JsonSerializerOptions RequestSerializerOptions => _requestSerializerOptions;
 
+        /// <summary>
+        /// Serailization options used for deserializing responses from the Turso API.
+        /// </summary>
         protected JsonSerializerOptions ResponseSerializerOptions => _responseSerializerOptions;
 
         #endregion
 
         #region Protected Methods
 
+        /// <summary>
+        /// Method used to parse error messages from the Turso API.
+        /// </summary>
+        /// <param name="response">The API response message.</param>
+        /// <param name="content">The API response content.</param>
+        /// <param name="status">A reference to a string used to store the API status code.</param>
+        /// <param name="message">A references to a used used to store the API error message.</param>
         protected void ParseError(HttpResponseMessage response, string content, ref string status, ref string message)
         {
             bool parsedError = false;

@@ -27,6 +27,10 @@ namespace TursoPlatformApi
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="TursoPlatformService"/>.
+        /// </summary>
+        /// <remarks>Not recommended for manual use. Used in DI.</remarks>
         public TursoPlatformService(ITursoDatabaseService databaseService, ITursoGroupService groupService, ITursoLocationService locationService,
             ITursoOrganizationsService organizationsService, ITursoMembersService membersService, ITursoInvitesService invitesService,
             ITursoAuditLogsService auditLogsService, ITursoApiTokensService apiTokensService)
@@ -81,13 +85,18 @@ namespace TursoPlatformApi
             _apiTokensService = apiTokensService;
         }
 
+        /// <summary>
+        /// Create a new instance ofthe the <see cref="TursoPlatformService"/>.
+        /// </summary>
+        /// <param name="organizationSlug">The default organization to use when not provided to the method.</param>
+        /// <param name="authToken">The Turso API auth token.</param>
         public TursoPlatformService(string organizationSlug, string authToken)
         {
             IServiceProvider serviceProvider = new ServiceCollection()
                 .AddTursoServices(new TursoAppSettings()
                 {
                     AuthToken = authToken,
-                    OrganizationSlug = organizationSlug,
+                    DefaultOrganizationSlug = organizationSlug,
                 })
                 .BuildServiceProvider();
 
@@ -133,32 +142,46 @@ namespace TursoPlatformApi
             }
         }
 
+        /// <inheritdoc />
         public ITursoDatabaseService Databases => _databaseService;
 
+        /// <inheritdoc />
         public ITursoGroupService Groups => _groupService;
 
+        /// <inheritdoc />
         public ITursoLocationService Locations => _locationService;
 
+        /// <inheritdoc />
         public ITursoOrganizationsService Organizations => _organizationsService;
 
+        /// <inheritdoc />
         public ITursoMembersService Members => _membersService;
 
+        /// <inheritdoc />
         public ITursoInvitesService Invites => _invitesService;
 
+        /// <inheritdoc />
         public ITursoAuditLogsService AuditLogs => _auditLogsService;
 
+        /// <inheritdoc />
         public ITursoApiTokensService ApiTokens => _apiTokensService;
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Initializes the default organization and sets the platform API token.
+        /// </summary>
+        /// <param name="organizationSlug">The default organization to use when not provided to the method.</param>
+        /// <param name="authToken">The Turso API auth token.</param>
+        /// <remarks>This should be called before using <see cref="Instance"/>.</remarks>
         public static void Initialize(string organizationSlug, string authToken)
         {
             _appSettings = new TursoAppSettings()
             {
                 AuthToken = authToken,
-                OrganizationSlug = organizationSlug,
+                DefaultOrganizationSlug = organizationSlug,
             };
         }
 

@@ -5,6 +5,9 @@ using TursoPlatformApi.Responses.ApiTokens;
 
 namespace TursoPlatformApi.Abstractions
 {
+    /// <summary>
+    /// Used to manage Turso API tokens.
+    /// </summary>
     public interface ITursoApiTokensService
     {
         /// <summary>
@@ -16,7 +19,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<CreatedApiToken>> Create(string tokenName);
 
         /// <summary>
-        /// Validates the API token the client was set up with.
+        /// Validates the API token the default organization.
         /// </summary>
         /// <returns>The time of expiration for the provided token in unix epoch seconds, or -1 if there is no expiration.</returns>
         Task<Optional<int>> Validate();

@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Members
 {
-    public class MemberResponse
+    internal class MemberResponse
     {
         public Member member { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Groups
 {
-    public class TransferGroupRequest
+    internal class TransferGroupRequest
     {
         public string organization { get; set; }
     }

@@ -5,7 +5,7 @@ namespace TursoPlatformApi.Responses.Members
     /// <summary>
     /// Represents the response from the API.
     /// </summary>
-    public class ListMembersResponse
+    internal class ListMembersResponse
     {
         /// <summary>
         /// List of members in the response.

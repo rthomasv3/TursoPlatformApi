@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.ApiTokens
 {
-    public class TokenValidation
+    internal class TokenValidation
     {
         /// <summary>
         /// The time of expiration for the provided token in unix epoch seconds, or -1 if there is no expiration.

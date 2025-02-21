@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.ApiTokens
 {
-    public class RevokeTokenResponse
+    internal class RevokeTokenResponse
     {
         public string token { get; set; }
     }

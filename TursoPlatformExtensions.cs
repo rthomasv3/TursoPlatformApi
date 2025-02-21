@@ -22,7 +22,7 @@ namespace TursoPlatformApi
 
             if (tursoSection.Exists())
             {
-                appSettings.OrganizationSlug = tursoSection["OrganizationSlug"];
+                appSettings.DefaultOrganizationSlug = tursoSection["OrganizationSlug"];
                 appSettings.AuthToken = tursoSection["AuthToken"];
             }
 
@@ -35,7 +35,7 @@ namespace TursoPlatformApi
         {
             TursoAppSettings appSettings = new TursoAppSettings()
             {
-                OrganizationSlug = organizationSlug,
+                DefaultOrganizationSlug = organizationSlug,
                 AuthToken = authToken,
             };
 

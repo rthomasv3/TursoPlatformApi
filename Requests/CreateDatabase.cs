@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the data required to create a new database.
     /// </summary>
-    public class CreateDatabase
+    internal class CreateDatabase
     {
         /// <summary>
         /// The name of the new database. Must contain only lowercase letters, numbers, dashes. No longer than 64 characters.

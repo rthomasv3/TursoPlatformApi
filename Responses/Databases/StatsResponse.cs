@@ -5,7 +5,7 @@ namespace TursoPlatformApi.Responses.Databases
     /// <summary>
     /// Represents the response containing the top queries performed on a database.
     /// </summary>
-    public class StatsResponse
+    internal class StatsResponse
     {
         /// <summary>
         /// The top queries performed on the given database as well as the total rows read and written.

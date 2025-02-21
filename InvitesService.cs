@@ -11,6 +11,7 @@ using TursoPlatformApi.Responses.Invites;
 
 namespace TursoPlatformApi
 {
+    /// <inheritdoc />
     public class InvitesService : ApiService, ITursoInvitesService
     {
         #region Fields
@@ -19,6 +20,11 @@ namespace TursoPlatformApi
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="InvitesService"/>.
+        /// </summary>
+        /// <param name="httpClientFactory"></param>
+        /// <param name="appSettings"></param>
         public InvitesService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings) 
             : base(httpClientFactory, appSettings)
         { }
@@ -30,7 +36,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<Invite>>> List()
         {
-            return await List(AppSettings.OrganizationSlug);
+            return await List(AppSettings.DefaultOrganizationSlug);
         }
 
         /// <inheritdoc />
@@ -67,6 +73,12 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Invite>> Create(string email, string role = "member")
         {
+            return await Create(AppSettings.DefaultOrganizationSlug, email, role);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Invite>> Create(string organizationSlug, string email, string role = "member")
+        {
             string status = null;
             string message = null;
             Invite invite = null;
@@ -82,7 +94,7 @@ namespace TursoPlatformApi
 
                 using (StringContent requestContent = new StringContent(createInviteJson, System.Text.Encoding.UTF8, "application/json"))
                 {
-                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/invites", requestContent);
+                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/invites", requestContent);
                     string content = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
@@ -108,13 +120,19 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<bool>> Delete(string email)
         {
+            return await Delete(AppSettings.DefaultOrganizationSlug, email);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<bool>> Delete(string organizationSlug, string email)
+        {
             string status = null;
             string message = null;
             bool deleted = false;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.DeleteAsync($"organizations/{AppSettings.OrganizationSlug}/invites/{email}");
+                HttpResponseMessage response = await TursoClient.DeleteAsync($"organizations/{organizationSlug}/invites/{email}");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)

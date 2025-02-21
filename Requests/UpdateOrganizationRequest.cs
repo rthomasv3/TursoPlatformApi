@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Requests
 {
-    public class UpdateOrganizationRequest
+    internal class UpdateOrganizationRequest
     {
         /// <summary>
         /// Enable or disable overages for the organization.

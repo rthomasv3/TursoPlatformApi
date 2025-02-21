@@ -4,11 +4,14 @@ using System.Text.Json.Serialization;
 
 namespace TursoPlatformApi.Responses.Invites
 {
-    public class ListInvitesResponse
+    internal class ListInvitesResponse
     {
         public List<Invite> invites { get; set; }
     }
 
+    /// <summary>
+    /// Invite information.
+    /// </summary>
     public class Invite
     {
         /// <summary>
@@ -68,6 +71,9 @@ namespace TursoPlatformApi.Responses.Invites
         public bool Accepted { get; set; }
     }
 
+    /// <summary>
+    /// Organization information.
+    /// </summary>
     public class Organization
     {
         /// <summary>

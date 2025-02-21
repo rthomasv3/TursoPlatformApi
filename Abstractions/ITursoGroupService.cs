@@ -5,10 +5,13 @@ using TursoPlatformApi.Responses.Groups;
 
 namespace TursoPlatformApi.Abstractions
 {
+    /// <summary>
+    /// Used to manage Turso groups.
+    /// </summary>
     public interface ITursoGroupService
     {
         /// <summary>
-        /// Returns a list of groups belonging to the organization or user the client was set up with.
+        /// Returns a list of groups belonging to the default organization.
         /// </summary>
         /// <returns>The list of groups.</returns>
         Task<Optional<List<Group>>> List();
@@ -21,7 +24,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<Group>>> List(string organizationSlug);
 
         /// <summary>
-        /// Creates a new group for the organization or user the client was set up with.
+        /// Creates a new group for the default organization.
         /// </summary>
         /// <param name="name">The name of the new group.</param>
         /// <param name="location">The location key for the new group.</param>
@@ -47,7 +50,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<Group>> Retrieve(string groupName);
 
         /// <summary>
-        /// Returns a group belonging to the organization or user the client was set up with.
+        /// Returns a group belonging to the default organization.
         /// </summary>
         /// <param name="organizationSlug">The slug of the organization or user account.</param>
         /// <param name="groupName">The name of the group.</param>
@@ -55,7 +58,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<Group>> Retrieve(string organizationSlug, string groupName);
 
         /// <summary>
-        /// Delete a group belonging to the organization or user the client was set up with.
+        /// Delete a group belonging to the default organization.
         /// </summary>
         /// <param name="groupName">The name of the group.</param>
         /// <returns>The deleted group details.</returns>
@@ -70,7 +73,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<Group>> Delete(string organizationSlug, string groupName);
 
         /// <summary>
-        /// Transfer a group to another organization that you own or a member of from the organization or user the client was set up with.
+        /// Transfer a group to another organization that you own or a member of from the default organization.
         /// </summary>
         /// <param name="groupName">The name of the group.</param>
         /// <param name="organization">The slug of the organization to transfer the group to.</param>
@@ -87,7 +90,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<Group>> Transfer(string organizationSlug, string groupName, string organization);
 
         /// <summary>
-        /// Unarchive a group that has been archived due to inactivity in the organization or user the client was set up with.
+        /// Unarchive a group that has been archived due to inactivity in the default organization.
         /// </summary>
         /// <param name="groupName">The name of the group.</param>
         /// <returns>The unarchived group details.</returns>
@@ -102,7 +105,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<Group>> Unarchive(string organizationSlug, string groupName);
 
         /// <summary>
-        /// Updates all databases in the group to the latest libSQL version in the organization or user the client was set up with.
+        /// Updates all databases in the group to the latest libSQL version in the default organization.
         /// </summary>
         /// <param name="groupName">The name of the group.</param>
         /// <returns>A value indicating if the update request was successful.</returns>
@@ -123,7 +126,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<bool>> UpdateVersions(string organizationSlug, string groupName);
 
         /// <summary>
-        /// Generates an authorization token for the specified group in the organization or user the client was set up with.
+        /// Generates an authorization token for the specified group in the default organization.
         /// </summary>
         /// <param name="groupName">The name of the group.</param>
         /// <param name="expiration">Expiration time for the token (e.g., 2w1d30m).</param>
@@ -146,7 +149,7 @@ namespace TursoPlatformApi.Abstractions
             string authorization = null, List<string> readAttachDatabases = null);
 
         /// <summary>
-        /// Invalidates all authorization tokens for the specified group in the organization or user the client was set up with.
+        /// Invalidates all authorization tokens for the specified group in the default organization.
         /// </summary>
         /// <param name="groupName">The name of the group.</param>
         /// <returns>A value indicating if the tokens were invalidated successfully.</returns>

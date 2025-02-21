@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Databases
 {
-    public class DatabaseName
+    internal class DatabaseName
     {
         public string Database { get; set; }
     }

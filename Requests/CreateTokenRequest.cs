@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the body of the request containing additional context such as claims required for the token.
     /// </summary>
-    public class CreateTokenRequest
+    internal class CreateTokenRequest
     {
         /// <summary>
         /// The permissions for the token.
@@ -14,7 +14,7 @@
     /// <summary>
     /// Represents the permissions for the token.
     /// </summary>
-    public class Permissions
+    internal class Permissions
     {
         /// <summary>
         /// Read ATTACH permission for the token.
@@ -25,7 +25,7 @@
     /// <summary>
     /// Represents the read ATTACH permission for the token.
     /// </summary>
-    public class ReadAttach
+    internal class ReadAttach
     {
         /// <summary>
         /// The databases associated with the read ATTACH permission.

@@ -1,5 +1,8 @@
 ﻿namespace TursoPlatformApi.Responses.Organizations
 {
+    /// <summary>
+    /// Organization information.
+    /// </summary>
     public class Organization
     {
         /// <summary>

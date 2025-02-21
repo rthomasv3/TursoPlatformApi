@@ -2,10 +2,26 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
-    <Title>rthomasv3.$(AssemblyName)</Title>
-    <PackageId>rthomasv3.$(AssemblyName)</PackageId>
+    <Title>rthomasv3.TursoPlatformApi</Title>
+    <PackageId>rthomasv3.TursoPlatformApi</PackageId>
+    <Version>0.9.0-dev1</Version>
+    <Authors>https://github.com/rthomasv3</Authors>
+    <Description>Unofficial C# SDK for the Turso Platform API.</Description>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/rthomasv3/TursoPlatformApi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rthomasv3/TursoPlatformApi</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="$(DocumentationFile)" Pack="true" PackagePath="lib\$(TargetFramework)" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.2" />

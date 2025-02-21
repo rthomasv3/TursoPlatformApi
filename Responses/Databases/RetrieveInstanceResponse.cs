@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Databases
 {
-    public class RetrieveInstanceResponse
+    internal class RetrieveInstanceResponse
     {
         public DatabaseInstance instance { get; set; }
     }

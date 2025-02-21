@@ -3,11 +3,14 @@ using System.Collections.Generic;
 
 namespace TursoPlatformApi.Responses.Organizations
 {
-    public class GetInvoicesResponse
+    internal class GetInvoicesResponse
     {
         public List<Invoice> Invoices { get; set; }
     }
 
+    /// <summary>
+    /// Invoice information.
+    /// </summary>
     public class Invoice
     {
         /// <summary>

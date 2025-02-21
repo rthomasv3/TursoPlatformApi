@@ -9,6 +9,7 @@ using TursoPlatformApi.Responses.ApiTokens;
 
 namespace TursoPlatformApi
 {
+    /// <inheritdoc />
     public class ApiTokensService : ApiService, ITursoApiTokensService
     {
         #region Fields
@@ -17,6 +18,9 @@ namespace TursoPlatformApi
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ApiTokensService"/>.
+        /// </summary>
         public ApiTokensService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings) 
             : base(httpClientFactory, appSettings)
         { }

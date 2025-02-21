@@ -12,6 +12,7 @@ using TursoPlatformApi.Responses.Organizations;
 
 namespace TursoPlatformApi
 {
+    /// <inheritdoc />
     public class OrganizationsService : ApiService, ITursoOrganizationsService
     {
         #region Fields
@@ -20,6 +21,9 @@ namespace TursoPlatformApi
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="OrganizationsService"/>.
+        /// </summary>
         public OrganizationsService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings)
             : base(httpClientFactory, appSettings)
         { }
@@ -61,7 +65,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Organization>> Retrieve()
         {
-            return await Retrieve(AppSettings.OrganizationSlug);
+            return await Retrieve(AppSettings.DefaultOrganizationSlug);
         }
 
         /// <inheritdoc />
@@ -98,7 +102,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Organization>> Update(bool overages)
         {
-            return await Update(AppSettings.OrganizationSlug, overages);
+            return await Update(AppSettings.DefaultOrganizationSlug, overages);
         }
 
         /// <inheritdoc />
@@ -144,7 +148,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<Plan>>> Plans()
         {
-            return await Plans(AppSettings.OrganizationSlug);
+            return await Plans(AppSettings.DefaultOrganizationSlug);
         }
 
         /// <inheritdoc />
@@ -182,7 +186,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Subscription>> CurrentSubscription()
         {
-            return await CurrentSubscription(AppSettings.OrganizationSlug);
+            return await CurrentSubscription(AppSettings.DefaultOrganizationSlug);
         }
 
         /// <inheritdoc />
@@ -219,7 +223,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<Invoice>>> Invoices(string type = null)
         {
-            return await Invoices(AppSettings.OrganizationSlug, type);
+            return await Invoices(AppSettings.DefaultOrganizationSlug, type);
         }
 
         /// <inheritdoc />
@@ -269,7 +273,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<OrganizationUsage>> CurrentUsage()
         {
-            return await CurrentUsage(AppSettings.OrganizationSlug);
+            return await CurrentUsage(AppSettings.DefaultOrganizationSlug);
         }
 
         /// <inheritdoc />

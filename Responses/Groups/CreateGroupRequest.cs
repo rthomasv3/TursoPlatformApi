@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Groups
 {
-    public class CreateGroupRequest
+    internal class CreateGroupRequest
     {
         /// <summary>
         /// The name of the new group.

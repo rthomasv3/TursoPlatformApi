@@ -2,7 +2,7 @@
 
 namespace TursoPlatformApi.Responses.ApiTokens
 {
-    public class ListTokensResponse
+    internal class ListTokensResponse
     {
         public List<ApiToken> tokens { get; set; }
     }

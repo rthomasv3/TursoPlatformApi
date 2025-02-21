@@ -2,7 +2,7 @@
 
 namespace TursoPlatformApi.Responses.Groups
 {
-    public class ListGroupsResponse
+    internal class ListGroupsResponse
     {
         public List<Group> groups { get; set; }
     }

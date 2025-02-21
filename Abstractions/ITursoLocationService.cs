@@ -5,6 +5,9 @@ using TursoPlatformApi.Responses.Locations;
 
 namespace TursoPlatformApi.Abstractions
 {
+    /// <summary>
+    /// Used to view Turso locations.
+    /// </summary>
     public interface ITursoLocationService
     {
         /// <summary>

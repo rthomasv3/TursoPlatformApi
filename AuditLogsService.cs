@@ -10,6 +10,7 @@ using TursoPlatformApi.Responses.AuditLogs;
 
 namespace TursoPlatformApi
 {
+    /// <inheritdoc />
     public class AuditLogsService : ApiService, ITursoAuditLogsService
     {
         #region Fields
@@ -18,6 +19,9 @@ namespace TursoPlatformApi
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="AuditLogsService"/>.
+        /// </summary>
         public AuditLogsService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings) 
             : base(httpClientFactory, appSettings)
         { }
@@ -29,7 +33,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Logs>> List(int pageSize = 100, int page = 1)
         {
-            return await List(AppSettings.OrganizationSlug, pageSize, page);
+            return await List(AppSettings.DefaultOrganizationSlug, pageSize, page);
         }
 
         /// <inheritdoc />

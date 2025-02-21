@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Organizations
 {
-    public class GetUsageResponse
+    internal class GetUsageResponse
     {
         public OrganizationUsage Organization { get; set; }
 

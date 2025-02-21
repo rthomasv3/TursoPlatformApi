@@ -6,7 +6,7 @@ namespace TursoPlatformApi.Responses.Organizations
     /// <summary>
     /// Represents the response containing a list of available plans.
     /// </summary>
-    public class GetPlansResponse
+    internal class GetPlansResponse
     {
         /// <summary>
         /// List of available plans.

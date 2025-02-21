@@ -2,7 +2,7 @@
 
 namespace TursoPlatformApi.Responses.Locations
 {
-    public class LocationsResponse
+    internal class LocationsResponse
     {
         public Dictionary<string, string> locations { get; set; }
     }

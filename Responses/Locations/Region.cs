@@ -1,5 +1,8 @@
 ﻿namespace TursoPlatformApi.Responses.Locations
 {
+    /// <summary>
+    /// Region information.
+    /// </summary>
     public class Region
     {
         /// <summary>

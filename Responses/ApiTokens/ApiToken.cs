@@ -1,5 +1,8 @@
 ﻿namespace TursoPlatformApi.Responses.ApiTokens
 {
+    /// <summary>
+    /// API token information.
+    /// </summary>
     public class ApiToken
     {
         /// <summary>

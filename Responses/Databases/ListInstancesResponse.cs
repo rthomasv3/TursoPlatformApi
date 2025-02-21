@@ -2,7 +2,7 @@
 
 namespace TursoPlatformApi.Responses.Databases
 {
-    public class ListInstancesResponse
+    internal class ListInstancesResponse
     {
         public List<DatabaseInstance> instances { get; set; }
     }

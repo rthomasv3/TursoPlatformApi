@@ -1,6 +1,6 @@
 ﻿namespace TursoPlatformApi.Responses.Invites
 {
-    public class CreateInviteResponse
+    internal class CreateInviteResponse
     {
         public Invite invited { get; set; }
     }

@@ -12,10 +12,14 @@ using TursoPlatformApi.Responses.Groups;
 
 namespace TursoPlatformApi
 {
+    /// <inheritdoc />
     public class GroupService : ApiService, ITursoGroupService
     {
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="GroupService"/>.
+        /// </summary>
         public GroupService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings) 
             : base(httpClientFactory, appSettings)
         { }
@@ -28,7 +32,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<Group>>> List()
         {
-            return await List(AppSettings.OrganizationSlug);
+            return await List(AppSettings.DefaultOrganizationSlug);
         }
 
         /// <inheritdoc />
@@ -65,7 +69,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Create(string name, string location, string extensions = null)
         {
-            return await Create(AppSettings.OrganizationSlug, name, location, extensions);
+            return await Create(AppSettings.DefaultOrganizationSlug, name, location, extensions);
         }
 
         /// <inheritdoc />
@@ -113,7 +117,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Retrieve(string groupName)
         {
-            return await Retrieve(AppSettings.OrganizationSlug, groupName);
+            return await Retrieve(AppSettings.DefaultOrganizationSlug, groupName);
         }
 
         /// <inheritdoc />
@@ -150,7 +154,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Delete(string groupName)
         {
-            return await Delete(AppSettings.OrganizationSlug, groupName);
+            return await Delete(AppSettings.DefaultOrganizationSlug, groupName);
         }
 
         /// <inheritdoc />
@@ -187,7 +191,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Transfer(string groupName, string organization)
         {
-            return await Transfer(AppSettings.OrganizationSlug, groupName, organization);
+            return await Transfer(AppSettings.DefaultOrganizationSlug, groupName, organization);
         }
 
         /// <inheritdoc />
@@ -232,7 +236,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Unarchive(string groupName)
         {
-            return await Unarchive(AppSettings.OrganizationSlug, groupName);
+            return await Unarchive(AppSettings.DefaultOrganizationSlug, groupName);
         }
 
         /// <inheritdoc />
@@ -270,7 +274,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<bool>> UpdateVersions(string groupName)
         {
-            return await UpdateVersions(AppSettings.OrganizationSlug, groupName);
+            return await UpdateVersions(AppSettings.DefaultOrganizationSlug, groupName);
         }
 
         /// <inheritdoc />
@@ -306,7 +310,7 @@ namespace TursoPlatformApi
         public async Task<Optional<string>> CreateToken(string groupName, string expiration = null,
             string authorization = null, List<string> readAttachDatabases = null)
         {
-            return await CreateToken(AppSettings.OrganizationSlug, expiration, authorization, readAttachDatabases);
+            return await CreateToken(AppSettings.DefaultOrganizationSlug, expiration, authorization, readAttachDatabases);
         }
 
         /// <inheritdoc />
@@ -378,7 +382,7 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<bool>> InvalidateTokens(string groupName)
         {
-            return await InvalidateTokens(AppSettings.OrganizationSlug, groupName);
+            return await InvalidateTokens(AppSettings.DefaultOrganizationSlug, groupName);
         }
 
         /// <inheritdoc />

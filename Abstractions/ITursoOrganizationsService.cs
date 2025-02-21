@@ -5,6 +5,9 @@ using TursoPlatformApi.Responses.Organizations;
 
 namespace TursoPlatformApi.Abstractions
 {
+    /// <summary>
+    /// Used to manage Turso organizations.
+    /// </summary>
     public interface ITursoOrganizationsService
     {
         /// <summary>
@@ -14,7 +17,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<Organization>>> List();
 
         /// <summary>
-        /// Retrieve details of the organization the client was set up with.
+        /// Retrieve details of the default organization.
         /// </summary>
         /// <returns>The organization details.</returns>
         Task<Optional<Organization>> Retrieve();
@@ -27,7 +30,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<Organization>> Retrieve(string organizationSlug);
 
         /// <summary>
-        /// Update the organization the client was set up with that you own or are a member of.
+        /// Update the default organization that you own or are a member of.
         /// </summary>
         /// <param name="overages">Enable or disable overages for the organization.</param>
         /// <returns>The updated organization.</returns>
@@ -55,7 +58,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<Plan>>> Plans(string organizationSlug);
 
         /// <summary>
-        /// Returns the current subscription details for the organization the client was set up with.
+        /// Returns the current subscription details for the default organization.
         /// </summary>
         /// <returns>The subscription details.</returns>
         Task<Optional<Subscription>> CurrentSubscription();
@@ -68,7 +71,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<Subscription>> CurrentSubscription(string organizationSlug);
 
         /// <summary>
-        /// Returns a list of invoices for the organization the client was set up with.
+        /// Returns a list of invoices for the default organization.
         /// </summary>
         /// <param name="type">The type of invoice to retrieve. Available options: all, upcoming, issued</param>
         /// <returns>The list of invoices for the organization.</returns>
@@ -83,7 +86,7 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<Invoice>>> Invoices(string organizationSlug, string type = null);
 
         /// <summary>
-        /// Fetch current billing cycle usage for the organization the client was set up with.
+        /// Fetch current billing cycle usage for the default organization.
         /// </summary>
         /// <returns>The organization usage object, containing the total usage for rows read and written, as well as the total storage size (in bytes).</returns>
         Task<Optional<OrganizationUsage>> CurrentUsage();
