@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TursoPlatformApi.Responses
+namespace TursoPlatformApi.Responses.Databases
 {
     public class ListDatabasesResponse
     {

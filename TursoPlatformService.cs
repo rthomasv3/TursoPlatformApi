@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using TursoPlatformApi.Abstractions;
 
@@ -82,13 +81,31 @@ namespace TursoPlatformApi
             _apiTokensService = apiTokensService;
         }
 
+        public TursoPlatformService(string organizationSlug, string authToken)
+        {
+            IServiceProvider serviceProvider = new ServiceCollection()
+                .AddTursoServices(new TursoAppSettings()
+                {
+                    AuthToken = authToken,
+                    OrganizationSlug = organizationSlug,
+                })
+                .BuildServiceProvider();
+
+            _databaseService = serviceProvider.GetRequiredService<IDatabaseService>();
+            _groupService = serviceProvider.GetRequiredService<IGroupService>();
+            _locationService = serviceProvider.GetRequiredService<ILocationService>();
+            _organizationsService = serviceProvider.GetRequiredService<IOrganizationsService>();
+            _membersService = serviceProvider.GetRequiredService<IMembersService>();
+            _invitesService = serviceProvider.GetRequiredService<IInvitesService>();
+            _auditLogsService = serviceProvider.GetRequiredService<IAuditLogsService>();
+            _apiTokensService = serviceProvider.GetRequiredService<IApiTokensService>();
+        }
+
         private TursoPlatformService()
         {
-            ServiceCollection services = new ServiceCollection();
-            services.AddTursoPlatformService();
-            services.Remove(services.First(x => x.ServiceType == typeof(TursoAppSettings)));
-            services.AddSingleton(_appSettings);
-            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            IServiceProvider serviceProvider = new ServiceCollection()
+                .AddTursoServices(_appSettings)
+                .BuildServiceProvider();
 
             _databaseService = serviceProvider.GetRequiredService<IDatabaseService>();
             _groupService = serviceProvider.GetRequiredService<IGroupService>();
@@ -142,7 +159,6 @@ namespace TursoPlatformApi
             {
                 AuthToken = authToken,
                 OrganizationSlug = organizationSlug,
-                TursoClientName = "TursoClient",
             };
         }
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TursoPlatformApi.Responses
+namespace TursoPlatformApi.Responses.Databases
 {
     /// <summary>
     /// Represents the response containing a list of databases.

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using TursoPlatformApi.Responses;
 
 namespace TursoPlatformApi
@@ -36,6 +37,7 @@ namespace TursoPlatformApi
             _jsonSerializerOptions = new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             };
         }
 
@@ -44,6 +46,10 @@ namespace TursoPlatformApi
         #region Properties
 
         protected HttpClient TursoClient => _httpClientFactory.CreateClient(_appSettings.TursoClientName);
+
+        protected HttpClient DefaultClient => _httpClientFactory.CreateClient(_appSettings.DefaultClientName);
+
+        protected TursoAppSettings AppSettings => _appSettings;
 
         protected JsonSerializerOptions JsonSerializerOptions => _jsonSerializerOptions;
 

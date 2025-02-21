@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using TursoPlatformApi.Abstractions;
+using TursoPlatformApi.Responses;
+using TursoPlatformApi.Responses.Members;
 
 namespace TursoPlatformApi
 {
@@ -16,17 +20,184 @@ namespace TursoPlatformApi
 
         public MembersService(IHttpClientFactory httpClientFactory, TursoAppSettings appSettings) 
             : base(httpClientFactory, appSettings)
-        {
-
-        }
+        { }
 
         #endregion
 
         #region Public Methods
 
-        #endregion
+        /// <inheritdoc />
+        public async Task<Optional<List<Member>>> List()
+        {
+            string status = null;
+            string message = null;
+            List<Member> members = null;
 
-        #region Private Methods
+            try
+            {
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/members");
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ListMembersResponse membersResponse = JsonSerializer.Deserialize<ListMembersResponse>(content, JsonSerializerOptions);
+                    members = membersResponse.members;
+                }
+                else
+                {
+                    ParseError(response, content, ref status, ref message);
+                }
+            }
+            catch (Exception ex)
+            {
+                status = "Exception";
+                message = ex.ToString();
+            }
+
+            return new Optional<List<Member>>(members, status, message);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Member>> Retrieve(string username)
+        {
+            string status = null;
+            string message = null;
+            Member member = null;
+
+            try
+            {
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/members/{username}");
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    MemberResponse memberResponse = JsonSerializer.Deserialize<MemberResponse>(content, JsonSerializerOptions);
+                    member = memberResponse.member;
+                }
+                else
+                {
+                    ParseError(response, content, ref status, ref message);
+                }
+            }
+            catch (Exception ex)
+            {
+                status = "Exception";
+                message = ex.ToString();
+            }
+
+            return new Optional<Member>(member, status, message);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<AddedMember>> Add(string username, string role)
+        {
+            string status = null;
+            string message = null;
+            AddedMember addedMember = null;
+
+            try
+            {
+                Member createMemberRequest = new Member()
+                {
+                    username = username,
+                    role = role
+                };
+                string createMemberJson = JsonSerializer.Serialize(createMemberRequest, JsonSerializerOptions);
+
+                using (StringContent requestContent = new StringContent(createMemberJson, Encoding.UTF8, "application/json"))
+                {
+                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/members", requestContent);
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        addedMember = JsonSerializer.Deserialize<AddedMember>(content, JsonSerializerOptions);
+                    }
+                    else
+                    {
+                        ParseError(response, content, ref status, ref message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                status = "Exception";
+                message = ex.ToString();
+            }
+
+            return new Optional<AddedMember>(addedMember, status, message);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Member>> Update(string username, string role)
+        {
+            string status = null;
+            string message = null;
+            Member member = null;
+
+            try
+            {
+                Member createMemberRequest = new Member()
+                {
+                    role = role
+                };
+                string createMemberJson = JsonSerializer.Serialize(createMemberRequest, JsonSerializerOptions);
+
+                using (StringContent requestContent = new StringContent(createMemberJson, Encoding.UTF8, "application/json"))
+                {
+                    HttpResponseMessage response = await TursoClient.PatchAsync($"organizations/{AppSettings.OrganizationSlug}/members", requestContent);
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MemberResponse memberResponse = JsonSerializer.Deserialize<MemberResponse>(content, JsonSerializerOptions);
+                        member = memberResponse.member;
+                    }
+                    else
+                    {
+                        ParseError(response, content, ref status, ref message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                status = "Exception";
+                message = ex.ToString();
+            }
+
+            return new Optional<Member>(member, status, message);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<string>> Remove(string username)
+        {
+            string status = null;
+            string message = null;
+            string member = null;
+
+            try
+            {
+                HttpResponseMessage response = await TursoClient.DeleteAsync($"organizations/{AppSettings.OrganizationSlug}/members/{username}");
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    RemoveMemberResponse memberResponse = JsonSerializer.Deserialize<RemoveMemberResponse>(content, JsonSerializerOptions);
+                    member = memberResponse.member;
+                }
+                else
+                {
+                    ParseError(response, content, ref status, ref message);
+                }
+            }
+            catch (Exception ex)
+            {
+                status = "Exception";
+                message = ex.ToString();
+            }
+
+            return new Optional<string>(member, status, message);
+        }
 
         #endregion
     }

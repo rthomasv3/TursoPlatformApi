@@ -1,6 +1,8 @@
-﻿namespace TursoPlatformApi.Responses
+﻿using System.Collections.Generic;
+
+namespace TursoPlatformApi.Responses
 {
-    public class Optional<T> where T : class
+    public class Optional<T>
     {
         public Optional()
         {
@@ -11,7 +13,7 @@
         public Optional(T value, string status = null, string message = null)
         {
             Value = value;
-            HasValue = value != default;
+            HasValue = !EqualityComparer<T>.Default.Equals(value, default);
             Status = status;
             Message = message;
         }

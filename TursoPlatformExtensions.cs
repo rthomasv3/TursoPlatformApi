@@ -10,10 +10,7 @@ namespace TursoPlatformApi
     {
         public static IServiceCollection AddTursoPlatformService(this IServiceCollection services)
         {
-            TursoAppSettings appSettings = new TursoAppSettings()
-            {
-                TursoClientName = "TursoClient",
-            };
+            TursoAppSettings appSettings = new TursoAppSettings();
 
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -29,22 +26,44 @@ namespace TursoPlatformApi
                 appSettings.AuthToken = tursoSection["AuthToken"];
             }
 
+            services.AddTursoServices(appSettings);
+
+            return services;
+        }
+
+        public static IServiceCollection AddTursoPlatformService(this IServiceCollection services, string organizationSlug, string authToken)
+        {
+            TursoAppSettings appSettings = new TursoAppSettings()
+            {
+                OrganizationSlug = organizationSlug,
+                AuthToken = authToken,
+            };
+
+            services.AddTursoServices(appSettings);
+
+            return services;
+        }
+
+        internal static IServiceCollection AddTursoServices(this IServiceCollection services, TursoAppSettings appSettings)
+        {
             services.AddHttpClient(appSettings.TursoClientName, configureClient =>
             {
                 configureClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {appSettings.AuthToken}");
                 configureClient.BaseAddress = new Uri("https://api.turso.tech/v1/");
             });
 
-            services.AddSingleton(appSettings);
-            services.AddSingleton<ITursoPlatformService, TursoPlatformService>();
-            services.AddSingleton<IDatabaseService, DatabaseService>();
-            services.AddSingleton<IGroupService, GroupService>();
-            services.AddSingleton<ILocationService, LocationService>();
-            services.AddSingleton<IOrganizationsService, OrganizationsService>();
-            services.AddSingleton<IMembersService, MembersService>();
-            services.AddSingleton<IInvitesService, InvitesService>();
-            services.AddSingleton<IAuditLogsService, AuditLogsService>();
-            services.AddSingleton<IApiTokensService, ApiTokensService>();
+            services.AddHttpClient(appSettings.DefaultClientName);
+
+            services.AddSingleton(appSettings)
+                    .AddSingleton<ITursoPlatformService, TursoPlatformService>()
+                    .AddSingleton<IDatabaseService, DatabaseService>()
+                    .AddSingleton<IGroupService, GroupService>()
+                    .AddSingleton<ILocationService, LocationService>()
+                    .AddSingleton<IOrganizationsService, OrganizationsService>()
+                    .AddSingleton<IMembersService, MembersService>()
+                    .AddSingleton<IInvitesService, InvitesService>()
+                    .AddSingleton<IAuditLogsService, AuditLogsService>()
+                    .AddSingleton<IApiTokensService, ApiTokensService>();
 
             return services;
         }

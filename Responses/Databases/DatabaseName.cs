@@ -1,4 +1,4 @@
-﻿namespace TursoPlatformApi.Responses
+﻿namespace TursoPlatformApi.Responses.Databases
 {
     public class DatabaseName
     {

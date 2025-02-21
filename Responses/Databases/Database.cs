@@ -1,4 +1,4 @@
-﻿namespace TursoPlatformApi.Responses
+﻿namespace TursoPlatformApi.Responses.Databases
 {
     /// <summary>
     /// Represents a database object returned by the API.

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TursoPlatformApi.Responses;
+using TursoPlatformApi.Responses.Databases;
 
 namespace TursoPlatformApi.Abstractions
 {
@@ -13,7 +12,7 @@ namespace TursoPlatformApi.Abstractions
         /// </summary>
         /// <param name="group">Filter databases by group name.</param>
         /// <param name="schema">The schema database name that can be used to get databases that belong to that parent schema.</param>
-        /// <returns>An Optional wrapped list of databases.</returns>
+        /// <returns>A list of database information.</returns>
         Task<Optional<List<Database>>> List(string group = null, string schema = null);
 
         /// <summary>
@@ -28,7 +27,7 @@ namespace TursoPlatformApi.Abstractions
         /// <param name="sizeLimit">The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb.</param>
         /// <param name="isScheme">[Deprecated] Mark this database as the parent schema database that updates child databases with any schema changes.</param>
         /// <param name="schema">[Deprecated] The name of the parent database to use as the schema.</param>
-        /// <returns>An Optional wrapped database.</returns>
+        /// <returns>The created database information.</returns>
         Task<Optional<Database>> Create(string name, string group, string seedType = null,
             string seedName = null, string seedUrl = null, string seedTimestamp = null,
             string sizeLimit = null, bool isScheme = false, string schema = null);
@@ -37,18 +36,43 @@ namespace TursoPlatformApi.Abstractions
         /// Returns a database belonging to the organization or user.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
-        /// <returns>An Optional wrapped database.</returns>
+        /// <returns>The database information.</returns>
         Task<Optional<Database>> Retrieve(string databaseName);
 
         /// <summary>
         /// Retrieve an individual database configuration belonging to the organization or user.
         /// </summary>
         /// <param name="databaseName">The name of the database.</param>
-        /// <returns></returns>
+        /// <returns>The database configuration data.</returns>
         Task<Optional<DatabaseConfiguration>> RetrieveConfiguration(string databaseName);
 
+        /// <summary>
+        /// Update a database configuration belonging to the organization or user.
+        /// </summary>
+        /// <param name="databaseName">The name of the database.</param>
+        /// <param name="sizeLimit">The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb.</param>
+        /// <param name="allowAttach">Allow or disallow attaching databases to the current database.</param>
+        /// <param name="blockReads">Block all database reads.</param>
+        /// <param name="blockWrites">Block all database writes.</param>
+        /// <returns>The database configuration data.</returns>
+        Task<Optional<DatabaseConfiguration>> UpdateConfiguration(string databaseName, string sizeLimit = null,
+            bool? allowAttach = null, bool? blockReads = null, bool? blockWrites = null);
 
+        /// <summary>
+        /// Fetch activity usage for a database in a given time period.
+        /// </summary>
+        /// <param name="databaseName">The name of the database.</param>
+        /// <param name="from">The datetime to retrieve usage from in ISO 8601 format. Defaults to the current calendar month if not provided. Example: 2023-01-01T00:00:00Z</param>
+        /// <param name="to">The datetime to retrieve usage to in ISO 8601 format. Defaults to the current calendar month if not provided. Example: 2023-02-01T00:00:00Z</param>
+        /// <returns>The database usage stats.</returns>
+        Task<Optional<DatabaseUsage>> Usage(string databaseName, string from = null, string to = null);
 
+        /// <summary>
+        /// Fetch the top queries of a database, including the count of rows read and written.
+        /// </summary>
+        /// <param name="databaseName">The name of the database.</param>
+        /// <returns>The list of top queries.</returns>
+        Task<Optional<List<TopQuery>>> Stats(string databaseName);
 
         /// <summary>
         /// Delete a database belonging to the organization or user.
@@ -56,5 +80,53 @@ namespace TursoPlatformApi.Abstractions
         /// <param name="databaseName">The name of the database.</param>
         /// <returns>The name of the database that was deleted.</returns>
         Task<Optional<string>> Delete(string databaseName);
+
+        /// <summary>
+        /// Returns a list of instances of a database. Instances are the individual primary or replica databases in each region defined by the group.
+        /// </summary>
+        /// <param name="databaseName">The name of the database.</param>
+        /// <returns>A list of instances of the given database.</returns>
+        Task<Optional<List<DatabaseInstance>>> ListInstances(string databaseName);
+
+        /// <summary>
+        /// Return the individual database instance by name.
+        /// </summary>
+        /// <param name="databaseName">The name of the database.</param>
+        /// <param name="instanceName">The name of the instance (location code).</param>
+        /// <returns>Database instance information.</returns>
+        Task<Optional<DatabaseInstance>> RetrieveInstance(string databaseName, string instanceName);
+
+        /// <summary>
+        /// Generates an authorization token for the specified database.
+        /// </summary>
+        /// <param name="databaseName">The name of the database.</param>
+        /// <param name="expiration">Expiration time for the token (e.g., 2w1d30m).</param>
+        /// <param name="authorization">Authorization level for the token (full-access or read-only). Available options: full-access, read-only</param>
+        /// <param name="readAttachDatabases">Read ATTACH permission for the token to read other databases.</param>
+        /// <returns>The newly created jwt token.</returns>
+        Task<Optional<string>> CreateToken(string databaseName, string expiration = null,
+            string authorization = null, List<string> readAttachDatabases = null);
+
+        /// <summary>
+        /// Invalidates all authorization tokens for the specified database.
+        /// </summary>
+        /// <param name="databaseName">The name of the database.</param>
+        /// <returns>A value indicating if the tokens were invalidated successfully.</returns>
+        Task<Optional<bool>> InvalidateTokens(string databaseName);
+
+        /// <summary>
+        /// Upload a SQL dump to be used when creating a new database from seed.
+        /// </summary>
+        /// <param name="filePath">The path of the sql dump file to upload.</param>
+        /// <returns>URL of the uploaded database dump.</returns>
+        Task<Optional<string>> UploadDump(string filePath);
+
+        /// <summary>
+        /// Upload a SQL dump to be used when creating a new database from seed.
+        /// </summary>
+        /// <param name="fileName">The name of the sql dump file.</param>
+        /// <param name="fileData">The sql dump file data.</param>
+        /// <returns>URL of the uploaded database dump.</returns>
+        Task<Optional<string>> UploadDump(string fileName, byte[] fileData);
     }
 }
