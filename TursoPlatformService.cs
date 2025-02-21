@@ -130,6 +130,9 @@ namespace TursoPlatformApi
 
         #region Properties
 
+        /// <summary>
+        /// Get or create a new static instance. Use <see cref="Initialize"/> first to set configuration options.
+        /// </summary>
         public static TursoPlatformService Instance
         {
             get
