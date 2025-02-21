@@ -13,7 +13,8 @@ namespace TursoPlatformApi
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly TursoAppSettings _appSettings;
-        private readonly JsonSerializerOptions _jsonSerializerOptions;
+        private readonly JsonSerializerOptions _requestSerializerOptions;
+        private readonly JsonSerializerOptions _responseSerializerOptions;
 
         #endregion
 
@@ -34,8 +35,15 @@ namespace TursoPlatformApi
             _httpClientFactory = httpClientFactory;
             _appSettings = appSettings;
 
-            _jsonSerializerOptions = new JsonSerializerOptions()
+            _requestSerializerOptions = new JsonSerializerOptions()
             {
+                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            };
+
+            _responseSerializerOptions = new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
                 PropertyNameCaseInsensitive = true,
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             };
@@ -51,7 +59,9 @@ namespace TursoPlatformApi
 
         protected TursoAppSettings AppSettings => _appSettings;
 
-        protected JsonSerializerOptions JsonSerializerOptions => _jsonSerializerOptions;
+        protected JsonSerializerOptions RequestSerializerOptions => _requestSerializerOptions;
+
+        protected JsonSerializerOptions ResponseSerializerOptions => _responseSerializerOptions;
 
         #endregion
 
@@ -68,7 +78,7 @@ namespace TursoPlatformApi
 
                 try
                 {
-                    ErrorResponse errorResponse = JsonSerializer.Deserialize<ErrorResponse>(content, JsonSerializerOptions);
+                    ErrorResponse errorResponse = JsonSerializer.Deserialize<ErrorResponse>(content, ResponseSerializerOptions);
                     message = $"{response.ReasonPhrase}: {errorResponse.Error}";
                     parsedError = true;
                 }

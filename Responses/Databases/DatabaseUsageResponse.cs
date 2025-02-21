@@ -10,12 +10,12 @@ namespace TursoPlatformApi.Responses.Databases
         /// <summary>
         /// The database usage object, containing the total and individual instance usage for rows read and written, as well as the total storage size (in bytes).
         /// </summary>
-        public DatabaseUsage database { get; set; }
+        public DatabaseUsage Database { get; set; }
 
         /// <summary>
         /// The total usage for the database.
         /// </summary>
-        public TotalUsage total { get; set; }
+        public Usage Total { get; set; }
     }
 
     /// <summary>
@@ -26,17 +26,17 @@ namespace TursoPlatformApi.Responses.Databases
         /// <summary>
         /// The universal unique identifier (UUID) of the database.
         /// </summary>
-        public string uuid { get; set; }
+        public string Uuid { get; set; }
 
         /// <summary>
         /// The usage objects for instances of the current database.
         /// </summary>
-        public List<UsageInstance> instances { get; set; }
+        public List<UsageInstance> Instances { get; set; }
 
         /// <summary>
         /// The total usage for the database.
         /// </summary>
-        public TotalUsage total { get; set; }
+        public Usage Total { get; set; }
     }
 
     /// <summary>
@@ -47,12 +47,12 @@ namespace TursoPlatformApi.Responses.Databases
         /// <summary>
         /// The universal unique identifier (UUID) of the instance.
         /// </summary>
-        public string uuid { get; set; }
+        public string Uuid { get; set; }
 
         /// <summary>
         /// The usage for the current database instance.
         /// </summary>
-        public Usage usage { get; set; }
+        public Usage Usage { get; set; }
     }
 
     /// <summary>
@@ -63,47 +63,21 @@ namespace TursoPlatformApi.Responses.Databases
         /// <summary>
         /// The total rows read in the time period.
         /// </summary>
-        public int rows_read { get; set; }
+        public long RowsRead { get; set; }
 
         /// <summary>
         /// The total rows written in the time period.
         /// </summary>
-        public int rows_written { get; set; }
+        public long RowsWritten { get; set; }
 
         /// <summary>
         /// The total storage used.
         /// </summary>
-        public int storage_bytes { get; set; }
+        public long StorageBytes { get; set; }
 
         /// <summary>
         /// The total bytes synced.
         /// </summary>
-        public int bytes_synced { get; set; }
-    }
-
-    /// <summary>
-    /// Represents the total usage for the database.
-    /// </summary>
-    public class TotalUsage
-    {
-        /// <summary>
-        /// The total rows read in the time period.
-        /// </summary>
-        public int rows_read { get; set; }
-
-        /// <summary>
-        /// The total rows written in the time period.
-        /// </summary>
-        public int rows_written { get; set; }
-
-        /// <summary>
-        /// The total storage used.
-        /// </summary>
-        public int storage_bytes { get; set; }
-
-        /// <summary>
-        /// The total bytes synced.
-        /// </summary>
-        public int bytes_synced { get; set; }
+        public long BytesSynced { get; set; }
     }
 }

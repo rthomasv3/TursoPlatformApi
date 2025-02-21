@@ -56,14 +56,14 @@ namespace TursoPlatformApi
 
             services.AddSingleton(appSettings)
                     .AddSingleton<ITursoPlatformService, TursoPlatformService>()
-                    .AddSingleton<IDatabaseService, DatabaseService>()
-                    .AddSingleton<IGroupService, GroupService>()
-                    .AddSingleton<ILocationService, LocationService>()
-                    .AddSingleton<IOrganizationsService, OrganizationsService>()
-                    .AddSingleton<IMembersService, MembersService>()
-                    .AddSingleton<IInvitesService, InvitesService>()
-                    .AddSingleton<IAuditLogsService, AuditLogsService>()
-                    .AddSingleton<IApiTokensService, ApiTokensService>();
+                    .AddSingleton<ITursoDatabaseService, DatabaseService>()
+                    .AddSingleton<ITursoGroupService, GroupService>()
+                    .AddSingleton<ITursoLocationService, LocationService>()
+                    .AddSingleton<ITursoOrganizationsService, OrganizationsService>()
+                    .AddSingleton<ITursoMembersService, MembersService>()
+                    .AddSingleton<ITursoInvitesService, InvitesService>()
+                    .AddSingleton<ITursoAuditLogsService, AuditLogsService>()
+                    .AddSingleton<ITursoApiTokensService, ApiTokensService>();
 
             return services;
         }

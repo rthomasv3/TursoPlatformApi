@@ -13,7 +13,7 @@ using TursoPlatformApi.Responses.Databases;
 
 namespace TursoPlatformApi
 {
-    public class DatabaseService : ApiService, IDatabaseService
+    public class DatabaseService : ApiService, ITursoDatabaseService
     {
         #region Constructor
 
@@ -27,6 +27,12 @@ namespace TursoPlatformApi
 
         /// <inheritdoc />
         public async Task<Optional<List<Database>>> List(string group = null, string schema = null)
+        {
+            return await List(AppSettings.OrganizationSlug, group, schema);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<List<Database>>> List(string organizationSlug, string group = null, string schema = null)
         {
             string status = null;
             string message = null;
@@ -52,13 +58,13 @@ namespace TursoPlatformApi
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/databases{queryString}");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/databases{queryString}");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Databases databasesResponse = JsonSerializer.Deserialize<Databases>(content, JsonSerializerOptions);
-                    databases = databasesResponse.databases;
+                    ListDatabases databasesResponse = JsonSerializer.Deserialize<ListDatabases>(content, ResponseSerializerOptions);
+                    databases = databasesResponse.Databases;
                 }
                 else
                 {
@@ -75,9 +81,18 @@ namespace TursoPlatformApi
         }
 
         /// <inheritdoc />
-        public async Task<Optional<Database>> Create(string name, string group, string seedType = null,
-            string seedName = null, string seedUrl = null, string seedTimestamp = null,
-            string sizeLimit = null, bool isScheme = false, string schema = null)
+        public async Task<Optional<Database>> Create(string name, string group, string seedType = null, string seedName = null, 
+            string seedUrl = null, string seedTimestamp = null, string sizeLimit = null, bool isScheme = false, 
+            string schema = null)
+        {
+            return await Create(AppSettings.OrganizationSlug, name, group, seedType, seedName, seedUrl, seedTimestamp, 
+                sizeLimit, isScheme, schema);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Database>> Create(string organizationSlug, string name, string group, string seedType = null,
+            string seedName = null, string seedUrl = null, string seedTimestamp = null, string sizeLimit = null, 
+            bool isScheme = false, string schema = null)
         {
             string status = null;
             string message = null;
@@ -107,16 +122,16 @@ namespace TursoPlatformApi
                     is_schema = isScheme,
                     schema = schema,
                 };
-                string createDatabaseJson = JsonSerializer.Serialize(createDatabase);
+                string createDatabaseJson = JsonSerializer.Serialize(createDatabase, RequestSerializerOptions);
 
                 using (StringContent requestContent = new StringContent(createDatabaseJson, System.Text.Encoding.UTF8, "application/json"))
                 {
-                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/databases", requestContent);
+                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/databases", requestContent);
                     string content = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        GetDatabaseResponse databaseResponse = JsonSerializer.Deserialize<GetDatabaseResponse>(content, JsonSerializerOptions);
+                        GetDatabaseResponse databaseResponse = JsonSerializer.Deserialize<GetDatabaseResponse>(content, ResponseSerializerOptions);
                         database = databaseResponse.Database;
                     }
                     else
@@ -137,18 +152,24 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Database>> Retrieve(string databaseName)
         {
+            return await Retrieve(AppSettings.OrganizationSlug, databaseName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Database>> Retrieve(string organizationSlug, string databaseName)
+        {
             string status = null;
             string message = null;
             Database database = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/databases/{databaseName}");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    GetDatabaseResponse databaseResponse = JsonSerializer.Deserialize<GetDatabaseResponse>(content, JsonSerializerOptions);
+                    GetDatabaseResponse databaseResponse = JsonSerializer.Deserialize<GetDatabaseResponse>(content, ResponseSerializerOptions);
                     database = databaseResponse.Database;
                 }
                 else
@@ -168,18 +189,24 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<DatabaseConfiguration>> RetrieveConfiguration(string databaseName)
         {
+            return await RetrieveConfiguration(AppSettings.OrganizationSlug, databaseName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<DatabaseConfiguration>> RetrieveConfiguration(string organizationSlug, string databaseName)
+        {
             string status = null;
             string message = null;
             DatabaseConfiguration databaseConfiguration = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}/configuration");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/databases/{databaseName}/configuration");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    databaseConfiguration = JsonSerializer.Deserialize<DatabaseConfiguration>(content, JsonSerializerOptions);
+                    databaseConfiguration = JsonSerializer.Deserialize<DatabaseConfiguration>(content, ResponseSerializerOptions);
                 }
                 else
                 {
@@ -199,6 +226,14 @@ namespace TursoPlatformApi
         public async Task<Optional<DatabaseConfiguration>> UpdateConfiguration(string databaseName, string sizeLimit = null, 
             bool? allowAttach = null, bool? blockReads = null, bool? blockWrites = null)
         {
+            return await UpdateConfiguration(AppSettings.OrganizationSlug, databaseName, sizeLimit, 
+                allowAttach, blockReads, blockWrites);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<DatabaseConfiguration>> UpdateConfiguration(string organizationSlug, string databaseName, 
+            string sizeLimit = null, bool? allowAttach = null, bool? blockReads = null, bool? blockWrites = null)
+        {
             string status = null;
             string message = null;
             DatabaseConfiguration databaseConfiguration = null;
@@ -207,23 +242,23 @@ namespace TursoPlatformApi
             {
                 try
                 {
-                    DatabaseConfiguration patchConfiguration = new DatabaseConfiguration()
+                    UpdateConfigurationRequest patchConfiguration = new UpdateConfigurationRequest()
                     {
                         size_limit = sizeLimit,
                         allow_attach = allowAttach,
                         block_reads = blockReads,
                         block_writes = blockWrites,
                     };
-                    string configurationJson = JsonSerializer.Serialize(patchConfiguration, JsonSerializerOptions);
+                    string configurationJson = JsonSerializer.Serialize(patchConfiguration, RequestSerializerOptions);
 
                     using (StringContent requestContent = new StringContent(configurationJson, System.Text.Encoding.UTF8, "application/json"))
                     {
-                        HttpResponseMessage response = await TursoClient.PatchAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}/configuration", requestContent);
+                        HttpResponseMessage response = await TursoClient.PatchAsync($"organizations/{organizationSlug}/databases/{databaseName}/configuration", requestContent);
                         string content = await response.Content.ReadAsStringAsync();
 
                         if (response.IsSuccessStatusCode)
                         {
-                            databaseConfiguration = JsonSerializer.Deserialize<DatabaseConfiguration>(content, JsonSerializerOptions);
+                            databaseConfiguration = JsonSerializer.Deserialize<DatabaseConfiguration>(content, ResponseSerializerOptions);
                         }
                         else
                         {
@@ -249,6 +284,13 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<DatabaseUsage>> Usage(string databaseName, string from = null, string to = null)
         {
+            return await Usage(AppSettings.OrganizationSlug, databaseName, from, to);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<DatabaseUsage>> Usage(string organizationSlug, string databaseName, 
+            string from = null, string to = null)
+        {
             string status = null;
             string message = null;
             DatabaseUsage databaseUsage = null;
@@ -273,14 +315,14 @@ namespace TursoPlatformApi
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}/usage{queryString}");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/databases/{databaseName}/usage{queryString}");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    DatabaseUsageResponse usageResponse = JsonSerializer.Deserialize<DatabaseUsageResponse>(content, JsonSerializerOptions);
-                    databaseUsage = usageResponse.database;
-                    databaseUsage.total = usageResponse.total;
+                    DatabaseUsageResponse usageResponse = JsonSerializer.Deserialize<DatabaseUsageResponse>(content, ResponseSerializerOptions);
+                    databaseUsage = usageResponse.Database;
+                    databaseUsage.Total = usageResponse.Total;
                 }
                 else
                 {
@@ -299,19 +341,25 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<TopQuery>>> Stats(string databaseName)
         {
+            return await Stats(AppSettings.OrganizationSlug, databaseName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<List<TopQuery>>> Stats(string organizationSlug, string databaseName)
+        {
             string status = null;
             string message = null;
             List<TopQuery> topQueries = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}/stats");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/databases/{databaseName}/stats");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    StatsResponse statsResponse = JsonSerializer.Deserialize<StatsResponse>(content, JsonSerializerOptions);
-                    topQueries = statsResponse.top_queries;
+                    StatsResponse statsResponse = JsonSerializer.Deserialize<StatsResponse>(content, ResponseSerializerOptions);
+                    topQueries = statsResponse.TopQueries;
                 }
                 else
                 {
@@ -330,18 +378,24 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<string>> Delete(string databaseName)
         {
+            return await Delete(AppSettings.OrganizationSlug, databaseName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<string>> Delete(string organizationSlug, string databaseName)
+        {
             string status = null;
             string message = null;
             string database = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.DeleteAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}");
+                HttpResponseMessage response = await TursoClient.DeleteAsync($"organizations/{organizationSlug}/databases/{databaseName}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    DatabaseName databaseResponse = JsonSerializer.Deserialize<DatabaseName>(content, JsonSerializerOptions);
+                    DatabaseName databaseResponse = JsonSerializer.Deserialize<DatabaseName>(content, ResponseSerializerOptions);
                     database = databaseResponse.Database;
                 }
                 else
@@ -362,18 +416,24 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<List<DatabaseInstance>>> ListInstances(string databaseName)
         {
+            return await ListInstances(AppSettings.OrganizationSlug, databaseName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<List<DatabaseInstance>>> ListInstances(string organizationSlug, string databaseName)
+        {
             string status = null;
             string message = null;
             List<DatabaseInstance> instances = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}/instances");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/databases/{databaseName}/instances");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    ListInstancesResponse instancesResponse = JsonSerializer.Deserialize<ListInstancesResponse>(content, JsonSerializerOptions);
+                    ListInstancesResponse instancesResponse = JsonSerializer.Deserialize<ListInstancesResponse>(content, ResponseSerializerOptions);
                     instances = instancesResponse.instances;
                 }
                 else
@@ -393,18 +453,24 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<DatabaseInstance>> RetrieveInstance(string databaseName, string instanceName)
         {
+            return await RetrieveInstance(AppSettings.OrganizationSlug, databaseName, instanceName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<DatabaseInstance>> RetrieveInstance(string organizationSlug, string databaseName, string instanceName)
+        {
             string status = null;
             string message = null;
             DatabaseInstance instance = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}/instances/{instanceName}");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/databases/{databaseName}/instances/{instanceName}");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    RetrieveInstanceResponse instanceResponse = JsonSerializer.Deserialize<RetrieveInstanceResponse>(content, JsonSerializerOptions);
+                    RetrieveInstanceResponse instanceResponse = JsonSerializer.Deserialize<RetrieveInstanceResponse>(content, ResponseSerializerOptions);
                     instance = instanceResponse.instance;
                 }
                 else
@@ -422,7 +488,14 @@ namespace TursoPlatformApi
         }
 
         /// <inheritdoc />
-        public async Task<Optional<string>> CreateToken(string databaseName, string expiration = null, 
+        public async Task<Optional<string>> CreateToken(string databaseName, string expiration = null,
+            string authorization = null, List<string> readAttachDatabases = null)
+        {
+            return await CreateToken(AppSettings.OrganizationSlug, databaseName, expiration, authorization, readAttachDatabases);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<string>> CreateToken(string organizationSlug, string databaseName, string expiration = null, 
             string authorization = null, List<string> readAttachDatabases = null)
         {
             string status = null;
@@ -459,16 +532,16 @@ namespace TursoPlatformApi
                         },
                     }
                 };
-                string createTokenJson = JsonSerializer.Serialize(createTokenRequest, JsonSerializerOptions);
+                string createTokenJson = JsonSerializer.Serialize(createTokenRequest, RequestSerializerOptions);
 
                 using (StringContent requestContent = new StringContent(createTokenJson, System.Text.Encoding.UTF8, "application/json"))
                 {
-                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}/auth/tokens{queryString}", requestContent);
+                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/databases/{databaseName}/auth/tokens{queryString}", requestContent);
                     string content = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        CreateTokenResponse tokenResponse = JsonSerializer.Deserialize<CreateTokenResponse>(content, JsonSerializerOptions);
+                        CreateTokenResponse tokenResponse = JsonSerializer.Deserialize<CreateTokenResponse>(content, ResponseSerializerOptions);
                         token = tokenResponse.jwt;
                     }
                     else
@@ -490,13 +563,19 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<bool>> InvalidateTokens(string databaseName)
         {
+            return await InvalidateTokens(AppSettings.OrganizationSlug, databaseName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<bool>> InvalidateTokens(string organizationSlug, string databaseName)
+        {
             string status = null;
             string message = null;
             bool invalidated = false;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/databases/{databaseName}/auth/rotate", null);
+                HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/databases/{databaseName}/auth/rotate", null);
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
@@ -520,11 +599,23 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<string>> UploadDump(string filePath)
         {
-            return await UploadDump(Path.GetFileName(filePath), File.ReadAllBytes(filePath));
+            return await UploadDump(AppSettings.OrganizationSlug, Path.GetFileName(filePath), File.ReadAllBytes(filePath));
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<string>> UploadDump(string organizationSlug, string filePath)
+        {
+            return await UploadDump(organizationSlug, Path.GetFileName(filePath), File.ReadAllBytes(filePath));
         }
 
         /// <inheritdoc />
         public async Task<Optional<string>> UploadDump(string fileName, byte[] fileData)
+        {
+            return await UploadDump(AppSettings.OrganizationSlug, fileName, fileData);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<string>> UploadDump(string organizationSlug, string fileName, byte[] fileData)
         {
             string status = null;
             string message = null;
@@ -538,12 +629,12 @@ namespace TursoPlatformApi
                     fileContent.Headers.Add("Content-Type", "application/octet-stream");
                     formData.Add(fileContent, "file", fileName);
 
-                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/databases/dumps", formData);
+                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/databases/dumps", formData);
                     string content = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        UploadDumpResponse dumpResponse = JsonSerializer.Deserialize<UploadDumpResponse>(content, JsonSerializerOptions);
+                        UploadDumpResponse dumpResponse = JsonSerializer.Deserialize<UploadDumpResponse>(content, ResponseSerializerOptions);
                         dumpUrl = dumpResponse.dump_url;
                     }
                     else

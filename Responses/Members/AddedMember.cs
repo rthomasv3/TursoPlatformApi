@@ -2,7 +2,7 @@
 {
     public class AddedMember
     {
-        public string member { get; set; }
-        public string role { get; set; }
+        public string Member { get; set; }
+        public string Role { get; set; }
     }
 }

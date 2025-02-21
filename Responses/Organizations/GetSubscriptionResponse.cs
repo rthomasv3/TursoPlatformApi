@@ -2,7 +2,7 @@
 {
     public class GetSubscriptionResponse
     {
-        public Subscription subscription { get; set; }
+        public Subscription Subscription { get; set; }
     }
 
     public class Subscription
@@ -10,21 +10,21 @@
         /// <summary>
         /// The name of the plan for the current subscription.
         /// </summary>
-        public string name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Whether overages are enabled for the organization.
         /// </summary>
-        public bool overages { get; set; }
+        public bool Overages { get; set; }
 
         /// <summary>
         /// The name of the plan for the current subscription.
         /// </summary>
-        public string plan { get; set; }
+        public string Plan { get; set; }
 
         /// <summary>
         /// Whether the plan is billed monthly or yearly.
         /// </summary>
-        public string timeline { get; set; }
+        public string Timeline { get; set; }
     }
 }

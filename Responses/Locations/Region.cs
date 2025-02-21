@@ -5,11 +5,11 @@
         /// <summary>
         /// The location code for the server responding.
         /// </summary>
-        public string server { get; set; }
+        public string Server { get; set; }
 
         /// <summary>
         /// The location code for the client request.
         /// </summary>
-        public string client { get; set; }
+        public string Client { get; set; }
     }
 }

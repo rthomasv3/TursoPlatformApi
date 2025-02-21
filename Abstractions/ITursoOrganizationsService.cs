@@ -5,7 +5,7 @@ using TursoPlatformApi.Responses.Organizations;
 
 namespace TursoPlatformApi.Abstractions
 {
-    public interface IOrganizationsService
+    public interface ITursoOrganizationsService
     {
         /// <summary>
         /// Returns a list of organizations the authenticated user owns or is a member of.
@@ -83,9 +83,16 @@ namespace TursoPlatformApi.Abstractions
         Task<Optional<List<Invoice>>> Invoices(string organizationSlug, string type = null);
 
         /// <summary>
-        /// Fetch current billing cycle usage for an organization.
+        /// Fetch current billing cycle usage for the organization the client was set up with.
         /// </summary>
         /// <returns>The organization usage object, containing the total usage for rows read and written, as well as the total storage size (in bytes).</returns>
         Task<Optional<OrganizationUsage>> CurrentUsage();
+
+        /// <summary>
+        /// Fetch current billing cycle usage for an organization.
+        /// </summary>
+        /// <param name="organizationSlug"></param>
+        /// <returns>The organization usage object, containing the total usage for rows read and written, as well as the total storage size (in bytes).</returns>
+        Task<Optional<OrganizationUsage>> CurrentUsage(string organizationSlug);
     }
 }

@@ -5,7 +5,7 @@ using TursoPlatformApi.Responses.Members;
 
 namespace TursoPlatformApi.Abstractions
 {
-    public interface IMembersService
+    public interface ITursoMembersService
     {
         /// <summary>
         /// Returns a list of members part of the organization.

@@ -2,10 +2,10 @@
 {
     public class DatabaseInstance
     {
-        public string uuid { get; set; }
-        public string name { get; set; }
-        public string type { get; set; }
-        public string region { get; set; }
-        public string hostname { get; set; }
+        public string Uuid { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Region { get; set; }
+        public string Hostname { get; set; }
     }
 }

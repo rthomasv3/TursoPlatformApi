@@ -9,7 +9,7 @@ using TursoPlatformApi.Responses.Locations;
 
 namespace TursoPlatformApi
 {
-    public class LocationService : ApiService, ILocationService
+    public class LocationService : ApiService, ITursoLocationService
     {
         #region Fields
 
@@ -39,7 +39,7 @@ namespace TursoPlatformApi
 
                 if (response.IsSuccessStatusCode)
                 {
-                    LocationsResponse locationsResponse = JsonSerializer.Deserialize<LocationsResponse>(content, JsonSerializerOptions);
+                    LocationsResponse locationsResponse = JsonSerializer.Deserialize<LocationsResponse>(content, ResponseSerializerOptions);
                     locations = locationsResponse.locations;
                 }
                 else
@@ -70,7 +70,7 @@ namespace TursoPlatformApi
 
                 if (response.IsSuccessStatusCode)
                 {
-                    region = JsonSerializer.Deserialize<Region>(content, JsonSerializerOptions);
+                    region = JsonSerializer.Deserialize<Region>(content, ResponseSerializerOptions);
                 }
                 else
                 {

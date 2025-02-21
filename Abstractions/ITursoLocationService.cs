@@ -5,7 +5,7 @@ using TursoPlatformApi.Responses.Locations;
 
 namespace TursoPlatformApi.Abstractions
 {
-    public interface ILocationService
+    public interface ITursoLocationService
     {
         /// <summary>
         /// Returns a list of locations where you can create or replicate databases.

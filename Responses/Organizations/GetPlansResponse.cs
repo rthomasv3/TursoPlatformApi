@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TursoPlatformApi.Responses.Organizations
 {
@@ -10,7 +11,7 @@ namespace TursoPlatformApi.Responses.Organizations
         /// <summary>
         /// List of available plans.
         /// </summary>
-        public List<Plan> plans { get; set; }
+        public List<Plan> Plans { get; set; }
     }
 
     /// <summary>
@@ -21,22 +22,22 @@ namespace TursoPlatformApi.Responses.Organizations
         /// <summary>
         /// The name of the plan.
         /// </summary>
-        public string name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// The monthly price of the plan.
         /// </summary>
-        public string price { get; set; }
+        public string Price { get; set; }
 
         /// <summary>
         /// List of prices for the plan with different timelines.
         /// </summary>
-        public List<Price> prices { get; set; }
+        public List<Price> Prices { get; set; }
 
         /// <summary>
         /// The quotas associated with the plan.
         /// </summary>
-        public Quotas quotas { get; set; }
+        public Quotas Quotas { get; set; }
     }
 
     /// <summary>
@@ -47,12 +48,12 @@ namespace TursoPlatformApi.Responses.Organizations
         /// <summary>
         /// Price of the available plan.
         /// </summary>
-        public string value { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// Payment regularity (e.g., monthly, annually).
         /// </summary>
-        public string timeline { get; set; }
+        public string Timeline { get; set; }
     }
 
     /// <summary>
@@ -63,36 +64,39 @@ namespace TursoPlatformApi.Responses.Organizations
         /// <summary>
         /// The number of rows read allowed for the specific plan.
         /// </summary>
-        public long rowsRead { get; set; }
+        [JsonPropertyName("rowsRead")]
+        public long RowsRead { get; set; }
 
         /// <summary>
         /// The number of rows written allowed for the specific plan.
         /// </summary>
-        public long rowsWritten { get; set; }
+        [JsonPropertyName("rowsWritten")]
+        public long RowsWritten { get; set; }
 
         /// <summary>
         /// The number of databases allowed for the specific plan. Can be null.
         /// </summary>
-        public int? databases { get; set; }
+        public int? Databases { get; set; }
 
         /// <summary>
         /// The number of locations allowed for the specific plan.
         /// </summary>
-        public int locations { get; set; }
+        public int Locations { get; set; }
 
         /// <summary>
         /// The amount of storage allowed for the specific plan, in bytes.
         /// </summary>
-        public long storage { get; set; }
+        public long Storage { get; set; }
 
         /// <summary>
         /// The number of groups allowed for the specific plan.
         /// </summary>
-        public int groups { get; set; }
+        public int Groups { get; set; }
 
         /// <summary>
         /// The number of bytes synced allowed for the specific plan, in bytes.
         /// </summary>
-        public long bytesSynced { get; set; }
+        [JsonPropertyName("bytesSynced")]
+        public long BytesSynced { get; set; }
     }
 }

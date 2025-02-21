@@ -10,7 +10,7 @@ namespace TursoPlatformApi.Responses.Members
         /// <summary>
         /// List of members in the response.
         /// </summary>
-        public List<Member> members { get; set; }
+        public List<Member> Members { get; set; }
     }
 
     /// <summary>
@@ -21,17 +21,17 @@ namespace TursoPlatformApi.Responses.Members
         /// <summary>
         /// The username for the member.
         /// </summary>
-        public string username { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// The role assigned to the member.
         /// Available options: owner, admin, member, viewer
         /// </summary>
-        public string role { get; set; }
+        public string Role { get; set; }
 
         /// <summary>
         /// The email for the member.
         /// </summary>
-        public string email { get; set; }
+        public string Email { get; set; }
     }
 }

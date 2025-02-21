@@ -12,7 +12,7 @@ using TursoPlatformApi.Responses.Groups;
 
 namespace TursoPlatformApi
 {
-    public class GroupService : ApiService, IGroupService
+    public class GroupService : ApiService, ITursoGroupService
     {
         #region Constructor
 
@@ -24,8 +24,15 @@ namespace TursoPlatformApi
 
         #region Public Methods
 
+
         /// <inheritdoc />
         public async Task<Optional<List<Group>>> List()
+        {
+            return await List(AppSettings.OrganizationSlug);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<List<Group>>> List(string organizationSlug)
         {
             string status = null;
             string message = null;
@@ -33,12 +40,12 @@ namespace TursoPlatformApi
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/groups");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/groups");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    ListGroupsResponse groupResponse = JsonSerializer.Deserialize<ListGroupsResponse>(content, JsonSerializerOptions);
+                    ListGroupsResponse groupResponse = JsonSerializer.Deserialize<ListGroupsResponse>(content, ResponseSerializerOptions);
                     groups = groupResponse.groups;
                 }
                 else
@@ -58,6 +65,12 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Create(string name, string location, string extensions = null)
         {
+            return await Create(AppSettings.OrganizationSlug, name, location, extensions);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Group>> Create(string organizationSlug, string name, string location, string extensions = null)
+        {
             string status = null;
             string message = null;
             Group group = null;
@@ -70,16 +83,16 @@ namespace TursoPlatformApi
                     location = location,
                     extensions = extensions,
                 };
-                string createGroupJson = JsonSerializer.Serialize(createGroupRequest, JsonSerializerOptions);
+                string createGroupJson = JsonSerializer.Serialize(createGroupRequest, RequestSerializerOptions);
 
                 using (StringContent requestContent = new StringContent(createGroupJson, System.Text.Encoding.UTF8, "application/json"))
                 {
-                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/groups", requestContent);
+                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/groups", requestContent);
                     string content = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        GroupResponse groupResponse = JsonSerializer.Deserialize<GroupResponse>(content, JsonSerializerOptions);
+                        GroupResponse groupResponse = JsonSerializer.Deserialize<GroupResponse>(content, ResponseSerializerOptions);
                         group = groupResponse.group;
                     }
                     else
@@ -100,18 +113,24 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Retrieve(string groupName)
         {
+            return await Retrieve(AppSettings.OrganizationSlug, groupName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Group>> Retrieve(string organizationSlug, string groupName)
+        {
             string status = null;
             string message = null;
             Group group = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{AppSettings.OrganizationSlug}/groups/{groupName}");
+                HttpResponseMessage response = await TursoClient.GetAsync($"organizations/{organizationSlug}/groups/{groupName}");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    GroupResponse groupResponse = JsonSerializer.Deserialize<GroupResponse>(content, JsonSerializerOptions);
+                    GroupResponse groupResponse = JsonSerializer.Deserialize<GroupResponse>(content, ResponseSerializerOptions);
                     group = groupResponse.group;
                 }
                 else
@@ -131,18 +150,24 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Delete(string groupName)
         {
+            return await Delete(AppSettings.OrganizationSlug, groupName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Group>> Delete(string organizationSlug, string groupName)
+        {
             string status = null;
             string message = null;
             Group group = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.DeleteAsync($"organizations/{AppSettings.OrganizationSlug}/groups/{groupName}");
+                HttpResponseMessage response = await TursoClient.DeleteAsync($"organizations/{organizationSlug}/groups/{groupName}");
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    GroupResponse groupResponse = JsonSerializer.Deserialize<GroupResponse>(content, JsonSerializerOptions);
+                    GroupResponse groupResponse = JsonSerializer.Deserialize<GroupResponse>(content, ResponseSerializerOptions);
                     group = groupResponse.group;
                 }
                 else
@@ -162,6 +187,12 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Transfer(string groupName, string organization)
         {
+            return await Transfer(AppSettings.OrganizationSlug, groupName, organization);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Group>> Transfer(string organizationSlug, string groupName, string organization)
+        {
             string status = null;
             string message = null;
             Group group = null;
@@ -172,16 +203,16 @@ namespace TursoPlatformApi
                 {
                     organization = organization,
                 };
-                string transferGroupJson = JsonSerializer.Serialize(transferGroupRequest, JsonSerializerOptions);
+                string transferGroupJson = JsonSerializer.Serialize(transferGroupRequest, RequestSerializerOptions);
 
                 using (StringContent requestContent = new StringContent(transferGroupJson, System.Text.Encoding.UTF8, "application/json"))
                 {
-                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/groups/{groupName}/transfer", requestContent);
+                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/groups/{groupName}/transfer", requestContent);
                     string content = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        group = JsonSerializer.Deserialize<Group>(content, JsonSerializerOptions);
+                        group = JsonSerializer.Deserialize<Group>(content, ResponseSerializerOptions);
                     }
                     else
                     {
@@ -201,18 +232,24 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<Group>> Unarchive(string groupName)
         {
+            return await Unarchive(AppSettings.OrganizationSlug, groupName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<Group>> Unarchive(string organizationSlug, string groupName)
+        {
             string status = null;
             string message = null;
             Group group = null;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/groups/{groupName}/unarchive", null);
+                HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/groups/{groupName}/unarchive", null);
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    GroupResponse groupResponse = JsonSerializer.Deserialize<GroupResponse>(content, JsonSerializerOptions);
+                    GroupResponse groupResponse = JsonSerializer.Deserialize<GroupResponse>(content, ResponseSerializerOptions);
                     group = groupResponse.group;
                 }
                 else
@@ -229,8 +266,15 @@ namespace TursoPlatformApi
             return new Optional<Group>(group, status, message);
         }
 
+
         /// <inheritdoc />
         public async Task<Optional<bool>> UpdateVersions(string groupName)
+        {
+            return await UpdateVersions(AppSettings.OrganizationSlug, groupName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<bool>> UpdateVersions(string organizationSlug, string groupName)
         {
             string status = null;
             string message = null;
@@ -238,7 +282,7 @@ namespace TursoPlatformApi
 
             try
             {
-                HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/groups/{groupName}/update", null);
+                HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/groups/{groupName}/update", null);
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
@@ -258,9 +302,15 @@ namespace TursoPlatformApi
 
             return new Optional<bool>(updated, status, message);
         }
-
         /// <inheritdoc />
         public async Task<Optional<string>> CreateToken(string groupName, string expiration = null,
+            string authorization = null, List<string> readAttachDatabases = null)
+        {
+            return await CreateToken(AppSettings.OrganizationSlug, expiration, authorization, readAttachDatabases);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<string>> CreateToken(string organizationSlug, string groupName, string expiration = null,
             string authorization = null, List<string> readAttachDatabases = null)
         {
             string status = null;
@@ -297,16 +347,16 @@ namespace TursoPlatformApi
                         },
                     }
                 };
-                string createTokenJson = JsonSerializer.Serialize(createTokenRequest, JsonSerializerOptions);
+                string createTokenJson = JsonSerializer.Serialize(createTokenRequest, RequestSerializerOptions);
 
                 using (StringContent requestContent = new StringContent(createTokenJson, System.Text.Encoding.UTF8, "application/json"))
                 {
-                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/groups/{groupName}/auth/tokens{queryString}", requestContent);
+                    HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/groups/{groupName}/auth/tokens{queryString}", requestContent);
                     string content = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        CreateTokenResponse tokenResponse = JsonSerializer.Deserialize<CreateTokenResponse>(content, JsonSerializerOptions);
+                        CreateTokenResponse tokenResponse = JsonSerializer.Deserialize<CreateTokenResponse>(content, ResponseSerializerOptions);
                         token = tokenResponse.jwt;
                     }
                     else
@@ -328,13 +378,19 @@ namespace TursoPlatformApi
         /// <inheritdoc />
         public async Task<Optional<bool>> InvalidateTokens(string groupName)
         {
+            return await InvalidateTokens(AppSettings.OrganizationSlug, groupName);
+        }
+
+        /// <inheritdoc />
+        public async Task<Optional<bool>> InvalidateTokens(string organizationSlug, string groupName)
+        {
             string status = null;
             string message = null;
             bool invalidated = false;
 
             try
             {
-                HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{AppSettings.OrganizationSlug}/groups/{groupName}/auth/rotate", null);
+                HttpResponseMessage response = await TursoClient.PostAsync($"organizations/{organizationSlug}/groups/{groupName}/auth/rotate", null);
                 string content = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)

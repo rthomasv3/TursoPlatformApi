@@ -5,12 +5,13 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TursoPlatformApi.Abstractions;
+using TursoPlatformApi.Requests;
 using TursoPlatformApi.Responses;
 using TursoPlatformApi.Responses.Members;
 
 namespace TursoPlatformApi
 {
-    public class MembersService : ApiService, IMembersService
+    public class MembersService : ApiService, ITursoMembersService
     {
         #region Fields
 
@@ -40,8 +41,8 @@ namespace TursoPlatformApi
 
                 if (response.IsSuccessStatusCode)
                 {
-                    ListMembersResponse membersResponse = JsonSerializer.Deserialize<ListMembersResponse>(content, JsonSerializerOptions);
-                    members = membersResponse.members;
+                    ListMembersResponse membersResponse = JsonSerializer.Deserialize<ListMembersResponse>(content, ResponseSerializerOptions);
+                    members = membersResponse.Members;
                 }
                 else
                 {
@@ -71,7 +72,7 @@ namespace TursoPlatformApi
 
                 if (response.IsSuccessStatusCode)
                 {
-                    MemberResponse memberResponse = JsonSerializer.Deserialize<MemberResponse>(content, JsonSerializerOptions);
+                    MemberResponse memberResponse = JsonSerializer.Deserialize<MemberResponse>(content, ResponseSerializerOptions);
                     member = memberResponse.member;
                 }
                 else
@@ -97,12 +98,12 @@ namespace TursoPlatformApi
 
             try
             {
-                Member createMemberRequest = new Member()
+                CreateMemberRequest createMemberRequest = new CreateMemberRequest()
                 {
                     username = username,
                     role = role
                 };
-                string createMemberJson = JsonSerializer.Serialize(createMemberRequest, JsonSerializerOptions);
+                string createMemberJson = JsonSerializer.Serialize(createMemberRequest, RequestSerializerOptions);
 
                 using (StringContent requestContent = new StringContent(createMemberJson, Encoding.UTF8, "application/json"))
                 {
@@ -111,7 +112,7 @@ namespace TursoPlatformApi
 
                     if (response.IsSuccessStatusCode)
                     {
-                        addedMember = JsonSerializer.Deserialize<AddedMember>(content, JsonSerializerOptions);
+                        addedMember = JsonSerializer.Deserialize<AddedMember>(content, ResponseSerializerOptions);
                     }
                     else
                     {
@@ -137,11 +138,11 @@ namespace TursoPlatformApi
 
             try
             {
-                Member createMemberRequest = new Member()
+                CreateMemberRequest createMemberRequest = new CreateMemberRequest()
                 {
                     role = role
                 };
-                string createMemberJson = JsonSerializer.Serialize(createMemberRequest, JsonSerializerOptions);
+                string createMemberJson = JsonSerializer.Serialize(createMemberRequest, RequestSerializerOptions);
 
                 using (StringContent requestContent = new StringContent(createMemberJson, Encoding.UTF8, "application/json"))
                 {
@@ -150,7 +151,7 @@ namespace TursoPlatformApi
 
                     if (response.IsSuccessStatusCode)
                     {
-                        MemberResponse memberResponse = JsonSerializer.Deserialize<MemberResponse>(content, JsonSerializerOptions);
+                        MemberResponse memberResponse = JsonSerializer.Deserialize<MemberResponse>(content, ResponseSerializerOptions);
                         member = memberResponse.member;
                     }
                     else
@@ -182,7 +183,7 @@ namespace TursoPlatformApi
 
                 if (response.IsSuccessStatusCode)
                 {
-                    RemoveMemberResponse memberResponse = JsonSerializer.Deserialize<RemoveMemberResponse>(content, JsonSerializerOptions);
+                    RemoveMemberResponse memberResponse = JsonSerializer.Deserialize<RemoveMemberResponse>(content, ResponseSerializerOptions);
                     member = memberResponse.member;
                 }
                 else

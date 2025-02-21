@@ -2,13 +2,13 @@
 {
     public interface ITursoPlatformService
     {
-        IDatabaseService Databases { get; }
-        IGroupService Groups { get; }
-        ILocationService Locations { get; }
-        IOrganizationsService Organizations { get; }
-        IMembersService Members { get; }
-        IInvitesService Invites { get; }
-        IAuditLogsService AuditLogs { get; }
-        IApiTokensService ApiTokens { get; }
+        ITursoDatabaseService Databases { get; }
+        ITursoGroupService Groups { get; }
+        ITursoLocationService Locations { get; }
+        ITursoOrganizationsService Organizations { get; }
+        ITursoMembersService Members { get; }
+        ITursoInvitesService Invites { get; }
+        ITursoAuditLogsService AuditLogs { get; }
+        ITursoApiTokensService ApiTokens { get; }
     }
 }

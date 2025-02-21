@@ -14,22 +14,22 @@ namespace TursoPlatformApi
         private static TursoPlatformService _instance;
         private static TursoAppSettings _appSettings;
 
-        private readonly IDatabaseService _databaseService;
-        private readonly IGroupService _groupService;
-        private readonly ILocationService _locationService;
-        private readonly IOrganizationsService _organizationsService;
-        private readonly IMembersService _membersService;
-        private readonly IInvitesService _invitesService;
-        private readonly IAuditLogsService _auditLogsService;
-        private readonly IApiTokensService _apiTokensService;
+        private readonly ITursoDatabaseService _databaseService;
+        private readonly ITursoGroupService _groupService;
+        private readonly ITursoLocationService _locationService;
+        private readonly ITursoOrganizationsService _organizationsService;
+        private readonly ITursoMembersService _membersService;
+        private readonly ITursoInvitesService _invitesService;
+        private readonly ITursoAuditLogsService _auditLogsService;
+        private readonly ITursoApiTokensService _apiTokensService;
 
         #endregion
 
         #region Constructors
 
-        public TursoPlatformService(IDatabaseService databaseService, IGroupService groupService, ILocationService locationService,
-            IOrganizationsService organizationsService, IMembersService membersService, IInvitesService invitesService,
-            IAuditLogsService auditLogsService, IApiTokensService apiTokensService)
+        public TursoPlatformService(ITursoDatabaseService databaseService, ITursoGroupService groupService, ITursoLocationService locationService,
+            ITursoOrganizationsService organizationsService, ITursoMembersService membersService, ITursoInvitesService invitesService,
+            ITursoAuditLogsService auditLogsService, ITursoApiTokensService apiTokensService)
         {
             if (databaseService == null)
             {
@@ -91,14 +91,14 @@ namespace TursoPlatformApi
                 })
                 .BuildServiceProvider();
 
-            _databaseService = serviceProvider.GetRequiredService<IDatabaseService>();
-            _groupService = serviceProvider.GetRequiredService<IGroupService>();
-            _locationService = serviceProvider.GetRequiredService<ILocationService>();
-            _organizationsService = serviceProvider.GetRequiredService<IOrganizationsService>();
-            _membersService = serviceProvider.GetRequiredService<IMembersService>();
-            _invitesService = serviceProvider.GetRequiredService<IInvitesService>();
-            _auditLogsService = serviceProvider.GetRequiredService<IAuditLogsService>();
-            _apiTokensService = serviceProvider.GetRequiredService<IApiTokensService>();
+            _databaseService = serviceProvider.GetRequiredService<ITursoDatabaseService>();
+            _groupService = serviceProvider.GetRequiredService<ITursoGroupService>();
+            _locationService = serviceProvider.GetRequiredService<ITursoLocationService>();
+            _organizationsService = serviceProvider.GetRequiredService<ITursoOrganizationsService>();
+            _membersService = serviceProvider.GetRequiredService<ITursoMembersService>();
+            _invitesService = serviceProvider.GetRequiredService<ITursoInvitesService>();
+            _auditLogsService = serviceProvider.GetRequiredService<ITursoAuditLogsService>();
+            _apiTokensService = serviceProvider.GetRequiredService<ITursoApiTokensService>();
         }
 
         private TursoPlatformService()
@@ -107,14 +107,14 @@ namespace TursoPlatformApi
                 .AddTursoServices(_appSettings)
                 .BuildServiceProvider();
 
-            _databaseService = serviceProvider.GetRequiredService<IDatabaseService>();
-            _groupService = serviceProvider.GetRequiredService<IGroupService>();
-            _locationService = serviceProvider.GetRequiredService<ILocationService>();
-            _organizationsService = serviceProvider.GetRequiredService<IOrganizationsService>();
-            _membersService = serviceProvider.GetRequiredService<IMembersService>();
-            _invitesService = serviceProvider.GetRequiredService<IInvitesService>();
-            _auditLogsService = serviceProvider.GetRequiredService<IAuditLogsService>();
-            _apiTokensService = serviceProvider.GetRequiredService<IApiTokensService>();
+            _databaseService = serviceProvider.GetRequiredService<ITursoDatabaseService>();
+            _groupService = serviceProvider.GetRequiredService<ITursoGroupService>();
+            _locationService = serviceProvider.GetRequiredService<ITursoLocationService>();
+            _organizationsService = serviceProvider.GetRequiredService<ITursoOrganizationsService>();
+            _membersService = serviceProvider.GetRequiredService<ITursoMembersService>();
+            _invitesService = serviceProvider.GetRequiredService<ITursoInvitesService>();
+            _auditLogsService = serviceProvider.GetRequiredService<ITursoAuditLogsService>();
+            _apiTokensService = serviceProvider.GetRequiredService<ITursoApiTokensService>();
         }
 
         #endregion
@@ -133,21 +133,21 @@ namespace TursoPlatformApi
             }
         }
 
-        public IDatabaseService Databases => _databaseService;
+        public ITursoDatabaseService Databases => _databaseService;
 
-        public IGroupService Groups => _groupService;
+        public ITursoGroupService Groups => _groupService;
 
-        public ILocationService Locations => _locationService;
+        public ITursoLocationService Locations => _locationService;
 
-        public IOrganizationsService Organizations => _organizationsService;
+        public ITursoOrganizationsService Organizations => _organizationsService;
 
-        public IMembersService Members => _membersService;
+        public ITursoMembersService Members => _membersService;
 
-        public IInvitesService Invites => _invitesService;
+        public ITursoInvitesService Invites => _invitesService;
 
-        public IAuditLogsService AuditLogs => _auditLogsService;
+        public ITursoAuditLogsService AuditLogs => _auditLogsService;
 
-        public IApiTokensService ApiTokens => _apiTokensService;
+        public ITursoApiTokensService ApiTokens => _apiTokensService;
 
         #endregion
 
