@@ -15,7 +15,7 @@ Complete setup information can be found in the [Turso quickstart guide](https://
 	```
 
 # Usage
-First install the package:
+Install the package in your project.
 ```
 dotnet add package rthomasv3.TursoPlatformApi
 ```
@@ -39,9 +39,9 @@ await tursoPlatformService.Databases.List();
 | ITursoAuditLogsService | View audit logs. |
 | ITursoApiTokensService | Manage platform API tokens. |
 
+## Dependency Injection
 The easiest way to use the Turso Platform API Service is using dependency injection.
 
-## Dependency Injection
 Add a `TursoPlatformApi` section to your `appsettings.json` file. Use `appsettings.Development.json` to avoid keys ending up in your repo.
 
 ```json
@@ -53,7 +53,7 @@ Add a `TursoPlatformApi` section to your `appsettings.json` file. Use `appsettin
 }
 ```
 
-After that you can add Turso Platform API Service using the provided services extension method.
+After that you can add Turso Platform API Service using the provided services extension method. If you prefer, you can pass in your org slug and API key to the `AddTursoPlatformService` method instead of using `appsettings.json`.
 
 ```c#
 builder.Services.AddTursoPlatformService();
