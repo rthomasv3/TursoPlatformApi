@@ -6,8 +6,16 @@ using TursoPlatformApi.Abstractions;
 
 namespace TursoPlatformApi
 {
+    /// <summary>
+    /// Extension methods used to setup the Turso platform API for dependency injection.
+    /// </summary>
     public static class TursoPlatformExtensions
     {
+        /// <summary>
+        /// Adds the Turso API services using the configuration from appsettings.json.
+        /// </summary>
+        /// <param name="services">The services collection.</param>
+        /// <returns>The services collection.</returns>
         public static IServiceCollection AddTursoPlatformService(this IServiceCollection services)
         {
             TursoAppSettings appSettings = new TursoAppSettings();
@@ -22,7 +30,7 @@ namespace TursoPlatformApi
 
             if (tursoSection.Exists())
             {
-                appSettings.DefaultOrganizationSlug = tursoSection["OrganizationSlug"];
+                appSettings.DefaultOrganizationSlug = tursoSection["DefaultOrganizationSlug"];
                 appSettings.AuthToken = tursoSection["AuthToken"];
             }
 
@@ -31,6 +39,13 @@ namespace TursoPlatformApi
             return services;
         }
 
+        /// <summary>
+        /// Adds the Turso API services using the provided configuration.
+        /// </summary>
+        /// <param name="services">The services collection.</param>
+        /// <param name="organizationSlug">The default organization slug to use when not provided to the method.</param>
+        /// <param name="authToken">Your Turso platform API auth token.</param>
+        /// <returns>The services collection.</returns>
         public static IServiceCollection AddTursoPlatformService(this IServiceCollection services, string organizationSlug, string authToken)
         {
             TursoAppSettings appSettings = new TursoAppSettings()
