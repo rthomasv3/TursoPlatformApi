@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,8 @@ namespace TursoPlatformApi
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
             IConfigurationRoot configuration = builder.Build();
 
             IConfigurationSection tursoSection = configuration.GetSection("TursoPlatformApi");
@@ -32,6 +34,34 @@ namespace TursoPlatformApi
             {
                 appSettings.DefaultOrganizationSlug = tursoSection["DefaultOrganizationSlug"];
                 appSettings.AuthToken = tursoSection["AuthToken"];
+            }
+            
+            if (String.IsNullOrWhiteSpace(appSettings.DefaultOrganizationSlug))
+            {
+                IDictionary envVariables = Environment.GetEnvironmentVariables();
+
+                if (envVariables.Contains("TursoPlatformApi:DefaultOrganizationSlug"))
+                {
+                    appSettings.DefaultOrganizationSlug = envVariables["TursoPlatformApi:DefaultOrganizationSlug"].ToString();
+                }
+                else if (envVariables.Contains("TursoPlatformApiDefaultOrganizationSlug"))
+                {
+                    appSettings.DefaultOrganizationSlug = envVariables["TursoPlatformApiDefaultOrganizationSlug"].ToString();
+                }
+            }
+
+            if (String.IsNullOrWhiteSpace(appSettings.AuthToken))
+            {
+                IDictionary envVariables = Environment.GetEnvironmentVariables();
+
+                if (envVariables.Contains("TursoPlatformApi:AuthToken"))
+                {
+                    appSettings.AuthToken = envVariables["TursoPlatformApi:AuthToken"].ToString();
+                }
+                else if (envVariables.Contains("TursoPlatformApiAuthToken"))
+                {
+                    appSettings.AuthToken = envVariables["TursoPlatformApiAuthToken"].ToString();
+                }
             }
 
             services.AddTursoServices(appSettings);
